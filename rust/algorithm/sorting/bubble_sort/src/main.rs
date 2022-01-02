@@ -1,5 +1,7 @@
-use bubble_sort::bubble_sort;
+use bslib::bubble_sort_mutable;
 
 fn main() {
-    println!("{:?}", bubble_sort(vec![3, 4, 1]));
+    let mut numbers = vec![3, 4, 1];
+    bubble_sort_mutable(&mut numbers);
+    println!("{:?}", numbers);
 }
