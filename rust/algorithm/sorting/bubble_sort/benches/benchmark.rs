@@ -1,5 +1,5 @@
 use criterion::{criterion_group, criterion_main, Criterion};
-use rand::{ Rng, SeedableRng };
+use rand::{Rng, SeedableRng};
 
 use bslib::bubble_sort_immutable;
 use bslib::bubble_sort_mutable;
