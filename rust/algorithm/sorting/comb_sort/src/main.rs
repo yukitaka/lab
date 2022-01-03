@@ -1,4 +1,4 @@
-use comb_sort::comb_sort;
+use cslib::comb_sort;
 
 fn main() {
     let mut numbers = vec![3, 4, 1];

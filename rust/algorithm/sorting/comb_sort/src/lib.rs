@@ -28,11 +28,18 @@ pub fn comb_sort(numbers: &mut Vec<i32>) {
 #[cfg(test)]
 mod tests {
     use crate::comb_sort;
+    use rand::{Rng, SeedableRng};
 
     #[test]
     fn it_sort() {
-        let mut numbers = vec![3, 4, 9, 2, 1];
+        let mut rng = rand::rngs::SmallRng::seed_from_u64(100);
+        let mut numbers = vec![rng.gen()];
+        for _ in 0..=100 {
+            numbers.push(rng.gen());
+        }
+        let mut expect = numbers.clone();
+        expect.sort();
         comb_sort(&mut numbers);
-        assert_eq!(vec![1, 2, 3, 4, 9], numbers);
+        assert_eq!(expect, numbers);
     }
 }
