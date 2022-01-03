@@ -1,7 +1,10 @@
 pub fn comb_sort(numbers: &mut Vec<i32>) {
-    let mut interval = numbers.len() * 10 / 13;
+    let mut interval = numbers.len();
 
     loop {
+        if interval > 1 {
+            interval = interval * 10 / 13;
+        }
         let mut not_changed = true;
         let mut index = 0;
         let len = numbers.len();
@@ -19,8 +22,6 @@ pub fn comb_sort(numbers: &mut Vec<i32>) {
             if not_changed {
                 return;
             }
-        } else {
-            interval = interval * 10 / 13;
         }
     }
 }
