@@ -1,4 +1,4 @@
-use merge_sort::merge_sort;
+use mslib::merge_sort;
 
 fn main() {
     let mut numbers = vec![3, 1, 2, 4, 7, 5, 2];
