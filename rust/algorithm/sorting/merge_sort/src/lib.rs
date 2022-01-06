@@ -12,40 +12,38 @@ pub fn merge_sort(numbers: &mut Vec<i32>) {
 }
 
 fn merge(left: &mut Vec<i32>, right: &Vec<i32>) {
-    let llen = left.len();
-    let rlen = right.len();
-    let mut lidx = 0;
-    let mut ridx = 0;
+    let tmp = left.clone();
+    let first = tmp.as_slice();
+    let second = right.as_slice();
+    let first_len = first.len();
+    let second_len = second.len();
 
-    loop {
-        if lidx < llen {
-            if ridx < rlen {
-                if left[lidx] <= right[ridx] {
-                    lidx += 1;
-                } else {
-                    left.splice(lidx..lidx, [right[ridx]]);
-                    ridx += 1;
-                    lidx += 1;
-                }
-            } else {
-                lidx += 1;
+    let mut i = 0;
+    let mut j = 0;
+    left.clear();
+
+    for _ in 0..(first_len + second_len) {
+        for _ in i..first_len {
+            if j == second_len {
+                left.push(first[i]);
+                i += 1;
+                continue;
             }
-        } else if ridx < rlen {
-            let mut add = true;
-            for i in lidx..left.len() {
-                if left[i] > right[ridx] {
-                    left.splice(i..i, [right[ridx]]);
-                    lidx += 1;
-                    add = false;
+            for _ in j..second_len {
+                if first[i] > second[j] {
+                    left.push(second[j]);
+                    j += 1;
+                } else {
+                    left.push(first[i]);
+                    i += 1;
                     break;
                 }
             }
-            if add {
-                left.push(right[ridx]);
-            }
-            ridx += 1;
-        } else if ridx == rlen {
-            break;
+        }
+    }
+    if j < second_len {
+        for k in j..second_len {
+            left.push(second[k]);
         }
     }
 }
