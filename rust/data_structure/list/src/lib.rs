@@ -1,6 +1,51 @@
+use crate::List::{Cons, Nil};
+use std::fmt;
+
+enum List {
+    Cons(u32, Box<List>),
+    Nil,
+}
+
+impl List {
+    fn new() -> List {
+        Nil
+    }
+
+    fn prepend(self, car: u32) -> List {
+        Cons(car, Box::new(self))
+    }
+
+    fn stringify(&self) -> String {
+        match *self {
+            Cons(head, ref tail) => {
+                format!("{}, {}", head, tail.stringify())
+            }
+            Nil => {
+                format!("Nil")
+            }
+        }
+    }
+}
+
+impl fmt::Display for List {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", self.stringify())
+    }
+}
+
 #[cfg(test)]
 mod tests {
+    use super::*;
     use std::collections::LinkedList;
+
+    #[test]
+    fn it_cons() {
+        let mut a = List::new();
+        a = a.prepend(1);
+        a = a.prepend(2);
+
+        assert_eq!("2, 1, Nil", a.stringify());
+    }
 
     #[test]
     fn it_join() {
