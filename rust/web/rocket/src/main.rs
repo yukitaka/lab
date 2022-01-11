@@ -2,6 +2,7 @@
 extern crate rocket;
 
 use rocket::http::{ContentType, Status};
+use rocket::{Build, Rocket};
 
 #[get("/")]
 fn index() -> (Status, (ContentType, &'static str)) {
@@ -11,8 +12,15 @@ fn index() -> (Status, (ContentType, &'static str)) {
     )
 }
 
-#[launch]
-fn rocket() -> _ {
+#[rocket::main]
+async fn main() {
+    if let Err(e) = rocket().launch().await {
+        println!("Oops! Rocket didn't launch!");
+        drop(e);
+    };
+}
+
+fn rocket() -> Rocket<Build> {
     rocket::build().mount("/", routes![index])
 }
 
