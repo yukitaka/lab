@@ -1,9 +1,14 @@
 #[macro_use]
 extern crate rocket;
 
+use rocket::http::{ContentType, Status};
+
 #[get("/")]
-fn index() -> &'static str {
-    "Hello, world!"
+fn index() -> (Status, (ContentType, &'static str)) {
+    (
+        Status::ImATeapot,
+        (ContentType::JSON, "{ \"hi\": \"world\" }"),
+    )
 }
 
 #[launch]
@@ -21,7 +26,7 @@ mod test {
     fn hello_world() {
         let client = Client::tracked(rocket()).expect("valid rocket instance");
         let response = client.get("/").dispatch();
-        assert_eq!(Status::Ok, response.status());
-        assert_eq!("Hello, world!", response.into_string().unwrap());
+        assert_eq!(Status::ImATeapot, response.status());
+        assert_eq!("{ \"hi\": \"world\" }", response.into_string().unwrap());
     }
 }
