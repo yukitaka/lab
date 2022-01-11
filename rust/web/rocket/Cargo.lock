@@ -806,13 +806,6 @@ dependencies = [
 
 [[package]]
 name = "rocket"
-version = "0.1.0"
-dependencies = [
- "rocket 0.5.0-rc.1",
-]
-
-[[package]]
-name = "rocket"
 version = "0.5.0-rc.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0a71c18c42a0eb15bf3816831caf0dad11e7966f2a41aaf486a701979c4dd1f2"
@@ -863,6 +856,13 @@ dependencies = [
  "rocket_http",
  "syn",
  "unicode-xid",
+]
+
+[[package]]
+name = "rocket_example"
+version = "0.1.0"
+dependencies = [
+ "rocket",
 ]
 
 [[package]]
