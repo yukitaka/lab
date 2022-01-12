@@ -1,9 +1,12 @@
 use rand::distributions::{Distribution, Uniform};
 use rand::Rng;
 
+mod distrs;
+
 fn main() {
     generate_random_numbers();
     generate_random_numbers_within_a_range();
+    distrs::generate_random_numbers_with_given_distribution();
 }
 
 fn generate_random_numbers() {
