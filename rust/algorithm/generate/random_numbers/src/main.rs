@@ -1,7 +1,9 @@
+use rand::distributions::{Distribution, Uniform};
 use rand::Rng;
 
 fn main() {
     generate_random_numbers();
+    generate_random_numbers_within_a_range();
 }
 
 fn generate_random_numbers() {
@@ -14,4 +16,20 @@ fn generate_random_numbers() {
     println!("Random u32: {}", rng.gen::<u32>());
     println!("Random i32: {}", rng.gen::<i32>());
     println!("Random float: {}", rng.gen::<f64>());
+}
+
+fn generate_random_numbers_within_a_range() {
+    let mut rng = rand::thread_rng();
+
+    println!("Integer: {}", rng.gen_range(0..10));
+    println!("Float: {}", rng.gen_range(0.0..10.0));
+
+    let die = Uniform::from(1..7);
+    loop {
+        let throw = die.sample(&mut rng);
+        println!("Roll the die: {}", throw);
+        if throw == 6 {
+            break;
+        }
+    }
 }
