@@ -6,7 +6,7 @@ mod distrs;
 fn main() {
     generate_random_numbers();
     generate_random_numbers_within_a_range();
-    distrs::generate_random_numbers_with_given_distribution();
+    let _ = distrs::generate_random_numbers_with_given_distribution();
     generate_random_values_of_a_custom_type();
     create_random_passwords_from_a_set_of_alphanumeric_characters();
 }
@@ -60,7 +60,10 @@ fn generate_random_values_of_a_custom_type() {
     let rand_tuple = rng.gen::<(i32, bool, f64)>();
     let rand_point: Point = rng.gen();
     println!("Random tuple: {:?}", rand_tuple);
-    println!("Random Point: {:?}", rand_point);
+    println!(
+        "Random Point: {:?} {} {}",
+        rand_point, rand_point.x, rand_point.y
+    );
 }
 
 fn create_random_passwords_from_a_set_of_alphanumeric_characters() {
