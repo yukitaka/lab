@@ -1,5 +1,5 @@
-use rand::distributions::{Distribution, Standard, Uniform};
-use rand::Rng;
+use rand::distributions::{Alphanumeric, Distribution, Standard, Uniform};
+use rand::{thread_rng, Rng};
 
 mod distrs;
 
@@ -8,6 +8,7 @@ fn main() {
     generate_random_numbers_within_a_range();
     distrs::generate_random_numbers_with_given_distribution();
     generate_random_values_of_a_custom_type();
+    create_random_passwords_from_a_set_of_alphanumeric_characters();
 }
 
 fn generate_random_numbers() {
@@ -60,4 +61,14 @@ fn generate_random_values_of_a_custom_type() {
     let rand_point: Point = rng.gen();
     println!("Random tuple: {:?}", rand_tuple);
     println!("Random Point: {:?}", rand_point);
+}
+
+fn create_random_passwords_from_a_set_of_alphanumeric_characters() {
+    let rand_string: String = thread_rng()
+        .sample_iter(&Alphanumeric)
+        .take(30)
+        .map(char::from)
+        .collect();
+
+    println!("{}", rand_string);
 }

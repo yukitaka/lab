@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: test
+      TZ: "Asia/Tokyo"
+    ports:
+      - 54321:5432
+    volumes:
+      - ./data:/var/lib/postgresql/data
