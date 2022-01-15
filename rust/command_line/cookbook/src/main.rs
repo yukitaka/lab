@@ -1,6 +1,10 @@
-use clap::{App, Arg};
-
 fn main() {
+    argument_parsing();
+}
+
+fn argument_parsing() {
+    use clap::{App, Arg};
+
     let matches = App::new("My Test Program")
         .version("0.1.0")
         .author("Takayuki Sato <s.yukkiy@gmail.com")
