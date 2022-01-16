@@ -1,5 +1,6 @@
 fn main() {
     argument_parsing();
+    printing_colored_text_to_the_terminal();
 }
 
 fn argument_parsing() {
@@ -36,4 +37,15 @@ fn argument_parsing() {
             Err(_) => println!("That's not a number! {}", s),
         },
     }
+}
+
+fn printing_colored_text_to_the_terminal() {
+    use ansi_term::Colour;
+
+    println!(
+        "This is {} in color, {} in color and {} in color",
+        Colour::Red.paint("red"),
+        Colour::Blue.paint("blue"),
+        Colour::Green.paint("green")
+    );
 }
