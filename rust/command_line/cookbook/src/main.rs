@@ -1,6 +1,7 @@
 fn main() {
     argument_parsing();
     printing_colored_text_to_the_terminal();
+    bold_text_in_terminal();t
 }
 
 fn argument_parsing() {
@@ -48,4 +49,11 @@ fn printing_colored_text_to_the_terminal() {
         Colour::Blue.paint("blue"),
         Colour::Green.paint("green")
     );
+}
+
+fn bold_text_in_terminal() {
+    use ansi_term::Style;
+
+    println!("{} and this is not",
+             Style::new().bold().paint("this is bold"));
 }
