@@ -1,7 +1,8 @@
 fn main() {
     argument_parsing();
     printing_colored_text_to_the_terminal();
-    bold_text_in_terminal();t
+    bold_text_in_terminal();
+    bold_and_colored_text_in_terminal();
 }
 
 fn argument_parsing() {
@@ -54,6 +55,19 @@ fn printing_colored_text_to_the_terminal() {
 fn bold_text_in_terminal() {
     use ansi_term::Style;
 
-    println!("{} and this is not",
-             Style::new().bold().paint("this is bold"));
+    println!(
+        "{} and this is not",
+        Style::new().bold().paint("this is bold")
+    );
+}
+
+fn bold_and_colored_text_in_terminal() {
+    use ansi_term::{Colour, Style};
+
+    println!(
+        "{}, {} and {}",
+        Colour::Yellow.paint("This is colored"),
+        Style::new().bold().paint("this is bold"),
+        Colour::Yellow.bold().paint("this is bold and colored")
+    );
 }
