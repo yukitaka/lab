@@ -1,6 +1,9 @@
+mod removing_prefix;
+
 fn main() {
     let _ = decompress_a_tarball();
     let _ = compress_a_directory_into_tarball();
+    let _ = removing_prefix::decompress_a_tarball_while_removing_a_prefix_from_the_paths();
 }
 
 fn decompress_a_tarball() -> Result<(), std::io::Error> {
