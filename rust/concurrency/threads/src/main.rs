@@ -1,5 +1,8 @@
+mod parallel_pipeline;
+
 fn main() {
     spawn_a_short_lived_thread();
+    parallel_pipeline::create_a_parallel_pipeline();
 }
 
 fn spawn_a_short_lived_thread() {
