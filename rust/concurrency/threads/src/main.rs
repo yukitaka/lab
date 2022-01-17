@@ -1,9 +1,11 @@
+mod mutable_state;
 mod parallel_pipeline;
 
 fn main() {
     spawn_a_short_lived_thread();
     parallel_pipeline::create_a_parallel_pipeline();
     pass_data_between_two_threads();
+    let _ = mutable_state::maintain_global_mutable_state();
 }
 
 fn spawn_a_short_lived_thread() {
