@@ -1,3 +1,4 @@
+mod files_concurrently;
 mod mutable_state;
 mod parallel_pipeline;
 
@@ -6,6 +7,7 @@ fn main() {
     parallel_pipeline::create_a_parallel_pipeline();
     pass_data_between_two_threads();
     let _ = mutable_state::maintain_global_mutable_state();
+    let _ = files_concurrently::calculate_sha256_sum_of_iso_files_concurrently();
 }
 
 fn spawn_a_short_lived_thread() {
