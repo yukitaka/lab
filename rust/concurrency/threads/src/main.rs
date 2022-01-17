@@ -1,3 +1,4 @@
+mod draw_fractal;
 mod files_concurrently;
 mod mutable_state;
 mod parallel_pipeline;
@@ -8,6 +9,7 @@ fn main() {
     pass_data_between_two_threads();
     let _ = mutable_state::maintain_global_mutable_state();
     let _ = files_concurrently::calculate_sha256_sum_of_iso_files_concurrently();
+    let _ = draw_fractal::draw_fractal_dispatching_work_to_a_thread_pool();
 }
 
 fn spawn_a_short_lived_thread() {
