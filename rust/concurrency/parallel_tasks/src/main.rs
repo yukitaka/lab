@@ -1,9 +1,12 @@
+use rand::distributions::Alphanumeric;
+use rand::{thread_rng, Rng};
 use rayon::prelude::*;
 
 fn main() {
     mutate_the_elements_of_an_array_in_parallel();
     test_in_parallel_if_any_or_all_elements_of_a_collection_match_a_given_predicate();
     search_items_using_given_predicate_in_parallel();
+    sort_a_vector_in_parallel();
 }
 
 fn mutate_the_elements_of_an_array_in_parallel() {
@@ -40,4 +43,16 @@ fn search_items_using_given_predicate_in_parallel() {
     assert_eq!(f1, Some(&9));
     assert_eq!(f2, Some(&8));
     assert!(f3 > Some(&8));
+}
+
+fn sort_a_vector_in_parallel() {
+    let mut vec = vec![String::new(); 100_000];
+
+    vec.par_iter_mut().for_each(|p| {
+        let mut rng = thread_rng();
+        *p = (0..5)
+            .map(|_| char::from(rng.sample(&Alphanumeric)))
+            .collect()
+    });
+    vec.par_sort_unstable();
 }
