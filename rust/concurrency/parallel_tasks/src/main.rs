@@ -2,12 +2,22 @@ use rand::distributions::Alphanumeric;
 use rand::{thread_rng, Rng};
 use rayon::prelude::*;
 
+mod thumb_in_parallel;
+
 fn main() {
     mutate_the_elements_of_an_array_in_parallel();
     test_in_parallel_if_any_or_all_elements_of_a_collection_match_a_given_predicate();
     search_items_using_given_predicate_in_parallel();
     sort_a_vector_in_parallel();
     mapreduce_in_parallel();
+    match thumb_in_parallel::generate_jpg_thumbnails_in_parallel() {
+        Err(e) => {
+            for e in e.iter() {
+                println!("{}", e);
+            }
+        }
+        _ => (),
+    }
 }
 
 fn mutate_the_elements_of_an_array_in_parallel() {
