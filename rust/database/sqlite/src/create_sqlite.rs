@@ -10,6 +10,14 @@ pub fn create_a_sqlite_database() -> Result<()> {
         )",
         [],
     )?;
+    conn.execute(
+        "create table if not exists cats (\
+            id integer primary key,
+            name text not null,
+            color_id integer not null references cat_colors(id)
+        )",
+        [],
+    )?;
 
     Ok(())
 }
