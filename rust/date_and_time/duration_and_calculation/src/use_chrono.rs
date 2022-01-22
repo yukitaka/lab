@@ -1,4 +1,4 @@
-use chrono::{DateTime, Duration, Utc};
+use chrono::{DateTime, Duration, FixedOffset, Local, Utc};
 
 pub fn perform_checked_date_and_time_calculations() {
     let now = Utc::now();
@@ -22,4 +22,26 @@ pub fn perform_checked_date_and_time_calculations() {
 
 fn day_earlier(date_time: DateTime<Utc>) -> Option<DateTime<Utc>> {
     date_time.checked_sub_signed(Duration::days(1))
+}
+
+pub fn convert_a_local_time_to_another_timezone() {
+    let local_time = Local::now();
+    let utc_time = DateTime::<Utc>::from_utc(local_time.naive_utc(), Utc);
+    let china_timezone = FixedOffset::east(8 * 3600);
+    let japan_timezone = FixedOffset::east(9 * 3600);
+    let rio_timezone = FixedOffset::west(2 * 3600);
+    println!("Local time now is {}", local_time);
+    println!("UTC time now is {}", utc_time);
+    println!(
+        "Time in Hong Kong now is {}",
+        utc_time.with_timezone(&china_timezone)
+    );
+    println!(
+        "Time in Tokyo now is {}",
+        utc_time.with_timezone(&japan_timezone)
+    );
+    println!(
+        "Time in Rio de janeiro now is {}",
+        utc_time.with_timezone(&rio_timezone)
+    );
 }
