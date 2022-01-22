@@ -1,5 +1,6 @@
 mod create_sqlite;
 mod insert_data;
+mod transaction;
 
 fn main() {
     match create_sqlite::create_a_sqlite_database() {
@@ -10,4 +11,5 @@ fn main() {
         Err(e) => println!("{}", e),
         _ => (),
     }
+    let _ = transaction::using_transactions();
 }
