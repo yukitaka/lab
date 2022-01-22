@@ -1,8 +1,11 @@
 use std::thread;
 use std::time::{Duration, Instant};
 
+mod use_chrono;
+
 fn main() {
     measure_the_elapsed_time_between_two_code_sections();
+    use_chrono::perform_checked_date_and_time_calculations();
 }
 
 fn expensive_function() {
