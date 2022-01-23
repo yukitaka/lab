@@ -1,9 +1,10 @@
-use chrono::{DateTime, Datelike, NaiveDate, NaiveDateTime, Timelike, Utc};
+use chrono::{DateTime, Datelike, NaiveDate, NaiveDateTime, NaiveTime, ParseError, Timelike, Utc};
 
 fn main() {
     examine_the_date_and_time();
     convert_date_to_unix_timestamp_and_vice_versa();
     display_formatted_date_and_time();
+    let _ = parse_string_into_datetime_struct();
 }
 
 fn examine_the_date_and_time() {
@@ -61,4 +62,26 @@ fn display_formatted_date_and_time() {
         "UTC now in a custom format is: {}",
         now.format("%a %b %e %T %Y")
     );
+}
+
+fn parse_string_into_datetime_struct() -> Result<(), ParseError> {
+    let rfc2822 = DateTime::parse_from_rfc2822("Tue, 1 Jul 2003 10:52:37 +0200")?;
+    println!("{}", rfc2822);
+
+    let rfc3339 = DateTime::parse_from_rfc3339("1996-12-19T16:39:57-08:00")?;
+    println!("{}", rfc3339);
+
+    let custom = DateTime::parse_from_str("5.8.1994 8:00 am +0000", "%d.%m.%Y %H:%M %P %z")?;
+    println!("{}", custom);
+
+    let time_only = NaiveTime::parse_from_str("23:56:04", "%H:%M:%S")?;
+    println!("{}", time_only);
+
+    let date_only = NaiveDate::parse_from_str("2015-09-05", "%Y-%m-%d")?;
+    println!("{}", date_only);
+
+    let no_timezone = NaiveDateTime::parse_from_str("2015-09-05 23:56:04", "%Y-%m-%d %H:%M:%S")?;
+    println!("{}", no_timezone);
+
+    Ok(())
 }
