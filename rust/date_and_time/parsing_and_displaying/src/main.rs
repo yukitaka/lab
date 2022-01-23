@@ -1,8 +1,9 @@
-use chrono::{Datelike, NaiveDate, NaiveDateTime, Timelike, Utc};
+use chrono::{DateTime, Datelike, NaiveDate, NaiveDateTime, Timelike, Utc};
 
 fn main() {
     examine_the_date_and_time();
     convert_date_to_unix_timestamp_and_vice_versa();
+    display_formatted_date_and_time();
 }
 
 fn examine_the_date_and_time() {
@@ -47,5 +48,17 @@ fn convert_date_to_unix_timestamp_and_vice_versa() {
     println!(
         "Date after a billion seconds since 1970-01-01 00:00:00 was {}.",
         date_time_after_a_billion_seconds
+    );
+}
+
+fn display_formatted_date_and_time() {
+    let now: DateTime<Utc> = Utc::now();
+
+    println!("UTC now is: {}", now);
+    println!("UTC now in RFC 2822 is: {}", now.to_rfc2822());
+    println!("UTC now in RFC 3339 is: {}", now.to_rfc3339());
+    println!(
+        "UTC now in a custom format is: {}",
+        now.format("%a %b %e %T %Y")
     );
 }
