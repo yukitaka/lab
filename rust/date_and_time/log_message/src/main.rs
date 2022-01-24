@@ -2,8 +2,12 @@ use env_logger::{Builder, Target};
 use log;
 
 mod console;
+mod custom_logger;
 
 fn main() {
+    if let Err(e) = custom_logger::log_messages_with_a_custom_logger() {
+        println!("{}", e);
+    }
     Builder::new().target(Target::Stdout).init();
 
     log::error!("This error has been printed to Stdout");
