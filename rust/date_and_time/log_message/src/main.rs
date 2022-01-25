@@ -3,8 +3,12 @@ use log;
 
 mod console;
 mod custom_logger;
+mod unix_syslog;
 
 fn main() {
+    if let Err(e) = unix_syslog::log_to_the_unix_syslog() {
+        println!("{}", e);
+    }
     if let Err(e) = custom_logger::log_messages_with_a_custom_logger() {
         println!("{}", e);
     }
