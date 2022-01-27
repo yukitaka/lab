@@ -7,6 +7,9 @@ fn main() {
     if let Err(e) = parse_a_complex_version_string() {
         println!("{}", e);
     }
+    if let Err(e) = check_if_given_version_is_prerelease() {
+        println!("{}", e);
+    }
 }
 
 fn parse_and_increment_a_version_string() -> Result<(), Error> {
@@ -59,6 +62,16 @@ fn parse_a_complex_version_string() -> Result<(), Error> {
 
     let serialized_version = parsed_version.to_string();
     assert_eq!(&serialized_version, version_str);
+
+    Ok(())
+}
+
+fn check_if_given_version_is_prerelease() -> Result<(), Error> {
+    let version_1 = Version::parse("1.0.0-alpha")?;
+    let version_2 = Version::parse("1.0.0")?;
+
+    assert_ne!(version_1.pre, Prerelease::EMPTY);
+    assert_eq!(version_2.pre, Prerelease::EMPTY);
 
     Ok(())
 }
