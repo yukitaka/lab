@@ -1,4 +1,14 @@
-use semver::{BuildMetadata, Error, Prerelease, Version, VersionReq};
+use error_chain::error_chain;
+use semver::{BuildMetadata, Prerelease, Version, VersionReq};
+use std::process::Command;
+
+error_chain! {
+    foreign_links {
+        Io(std::io::Error);
+        Utf8(std::string::FromUtf8Error);
+        Semver(semver::Error);
+    }
+}
 
 fn main() {
     if let Err(e) = parse_and_increment_a_version_string() {
@@ -13,9 +23,12 @@ fn main() {
     if let Err(e) = find_the_latest_version_satisfying_given_range() {
         println!("{}", e);
     }
+    if let Err(e) = check_external_command_version_for_compatibility() {
+        println!("{}", e);
+    }
 }
 
-fn parse_and_increment_a_version_string() -> Result<(), Error> {
+fn parse_and_increment_a_version_string() -> Result<()> {
     let mut parsed_version = Version::parse("0.2.6")?;
 
     assert_eq!(
@@ -47,7 +60,7 @@ fn parse_and_increment_a_version_string() -> Result<(), Error> {
     Ok(())
 }
 
-fn parse_a_complex_version_string() -> Result<(), Error> {
+fn parse_a_complex_version_string() -> Result<()> {
     let version_str = "1.0.49-125+g72ee7853";
     let parsed_version = Version::parse(version_str)?;
 
@@ -69,7 +82,7 @@ fn parse_a_complex_version_string() -> Result<(), Error> {
     Ok(())
 }
 
-fn check_if_given_version_is_prerelease() -> Result<(), Error> {
+fn check_if_given_version_is_prerelease() -> Result<()> {
     let version_1 = Version::parse("1.0.0-alpha")?;
     let version_2 = Version::parse("1.0.0")?;
 
@@ -79,7 +92,7 @@ fn check_if_given_version_is_prerelease() -> Result<(), Error> {
     Ok(())
 }
 
-fn find_the_latest_version_satisfying_given_range() -> Result<(), Error> {
+fn find_the_latest_version_satisfying_given_range() -> Result<()> {
     assert_eq!(
         find_max_matching_version("<= 1.0.0", vec!["0.9.0", "1.0.0", "1.0.1"])?,
         Some(Version::parse("1.0.0")?)
@@ -102,10 +115,7 @@ fn find_the_latest_version_satisfying_given_range() -> Result<(), Error> {
     Ok(())
 }
 
-fn find_max_matching_version<'a, I>(
-    version_req_str: &str,
-    iterable: I,
-) -> Result<Option<Version>, Error>
+fn find_max_matching_version<'a, I>(version_req_str: &str, iterable: I) -> Result<Option<Version>>
 where
     I: IntoIterator<Item = &'a str>,
 {
@@ -116,4 +126,32 @@ where
         .filter_map(|s| Version::parse(s).ok())
         .filter(|s| vreq.matches(s))
         .max())
+}
+
+fn check_external_command_version_for_compatibility() -> Result<()> {
+    let version_constraint = "> 1.12.0";
+    let version_test = VersionReq::parse(version_constraint)?;
+    let output = Command::new("git").arg("--version").output()?;
+
+    if !output.status.success() {
+        error_chain::bail!("Command executed with failing error code");
+    }
+
+    let stdout = String::from_utf8(output.stdout)?;
+    let version = stdout
+        .trim()
+        .split(" ")
+        .last()
+        .ok_or_else(|| "Invalid command output")?;
+    let parsed_version = Version::parse(version)?;
+
+    if !version_test.matches(&parsed_version) {
+        error_chain::bail!(
+            "Command version lower than minimum supported version (found {}, need {})",
+            parsed_version,
+            version_constraint
+        );
+    }
+
+    Ok(())
 }
