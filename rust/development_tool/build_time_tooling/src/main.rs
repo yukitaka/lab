@@ -14,11 +14,18 @@ extern "C" {
     fn greet(name: *const c_char);
 }
 
+extern "C" {
+    fn multiply(x: i32, y: i32) -> i32;
+}
+
 fn main() -> Result<()> {
     unsafe { hello() }
     let name = prompt("What's your name? ")?;
     let c_name = CString::new(name)?;
     unsafe { greet(c_name.as_ptr()) }
+    unsafe {
+        println!("{}", multiply(5, 7));
+    }
     Ok(())
 }
 
