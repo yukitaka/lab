@@ -12,10 +12,8 @@ error_chain! {
 extern "C" {
     fn hello();
     fn greet(name: *const c_char);
-}
-
-extern "C" {
     fn multiply(x: i32, y: i32) -> i32;
+    fn print_app_info();
 }
 
 fn main() -> Result<()> {
@@ -25,6 +23,9 @@ fn main() -> Result<()> {
     unsafe { greet(c_name.as_ptr()) }
     unsafe {
         println!("{}", multiply(5, 7));
+    }
+    unsafe {
+        print_app_info();
     }
     Ok(())
 }

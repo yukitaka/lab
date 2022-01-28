@@ -4,4 +4,13 @@ fn main() {
         .cpp(true)
         .file("src/foo.cpp")
         .compile("foo");
+    cc::Build::new()
+        .define("APP_NAME", "\"foo\"")
+        .define(
+            "VERSION",
+            format!("\"{}\"", env!("CARGO_PKG_VERSION")).as_str(),
+        )
+        .define("WELCOME", None)
+        .file("src/bar.c")
+        .compile("bar");
 }
