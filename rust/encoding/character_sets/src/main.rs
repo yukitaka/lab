@@ -1,3 +1,4 @@
+mod encode_and_decode_hex;
 mod percent_encode;
 mod urlencoded;
 
@@ -6,4 +7,7 @@ fn main() {
         println!("{}", e);
     }
     urlencoded::encode_a_string_as_application_s_www_form_urlencoded();
+    if let Err(e) = encode_and_decode_hex::encode_and_decode_hex() {
+        println!("{}", e);
+    }
 }
