@@ -3,6 +3,7 @@ mod invalid_csv;
 mod matching_a_predicate;
 mod read_csv_records;
 mod read_deserialize;
+mod serialize_record;
 
 fn main() {
     if let Err(e) = read_csv_records::read_csv_records() {
@@ -18,6 +19,9 @@ fn main() {
         println!("{}", e);
     }
     if let Err(e) = invalid_csv::handle_invalid_csv_data_with_serde() {
+        println!("{}", e);
+    }
+    if let Err(e) = serialize_record::serialize_records_to_csv() {
         println!("{}", e);
     }
 }
