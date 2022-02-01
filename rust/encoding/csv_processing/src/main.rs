@@ -5,6 +5,7 @@ mod read_csv_records;
 mod read_deserialize;
 mod serialize_record;
 mod serialize_record_using_serde;
+mod transform_csv;
 
 fn main() {
     if let Err(e) = read_csv_records::read_csv_records() {
@@ -26,6 +27,9 @@ fn main() {
         println!("{}", e);
     }
     if let Err(e) = serialize_record_using_serde::serialize_records_to_csv_using_serde() {
+        println!("{}", e);
+    }
+    if let Err(e) = transform_csv::transform_csv_column() {
         println!("{}", e);
     }
 }
