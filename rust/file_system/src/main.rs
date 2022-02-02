@@ -1,4 +1,5 @@
 mod avoid_writing_and_reading;
+mod memory_map;
 mod read_lines;
 
 fn main() {
@@ -6,6 +7,9 @@ fn main() {
         println!("{}", e);
     }
     if let Err(e) = avoid_writing_and_reading::avoid_writing_and_reading_from_a_same_file() {
+        println!("{}", e);
+    }
+    if let Err(e) = memory_map::access_a_file_randomly_using_a_memory_map() {
         println!("{}", e);
     }
 }
