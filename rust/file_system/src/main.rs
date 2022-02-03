@@ -1,5 +1,6 @@
 mod avoid_writing_and_reading;
 mod file_modified;
+mod find_loops;
 mod memory_map;
 mod read_lines;
 
@@ -16,4 +17,5 @@ fn main() {
     if let Err(e) = file_modified::file_names_that_have_been_modified_in_the_last_24hours() {
         println!("{}", e);
     }
+    find_loops::find_loops_for_a_given_path();
 }
