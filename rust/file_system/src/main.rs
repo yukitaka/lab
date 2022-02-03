@@ -1,5 +1,6 @@
 mod avoid_writing_and_reading;
 mod file_modified;
+mod find_duplicate;
 mod find_loops;
 mod memory_map;
 mod read_lines;
@@ -18,4 +19,5 @@ fn main() {
         println!("{}", e);
     }
     find_loops::find_loops_for_a_given_path();
+    find_duplicate::recursively_find_duplicate_file_names();
 }
