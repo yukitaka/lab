@@ -5,6 +5,7 @@ mod find_duplicate;
 mod find_loops;
 mod memory_map;
 mod read_lines;
+mod traverse_directories;
 
 fn main() {
     if let Err(e) = read_lines::read_lines_of_strings_from_a_file() {
@@ -24,4 +25,5 @@ fn main() {
     if let Err(e) = find_all_files::recursively_find_all_files_with_given_predicate() {
         println!("{}", e);
     }
+    traverse_directories::traverse_directories_while_skipping_dotfiles();
 }
