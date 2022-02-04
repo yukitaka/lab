@@ -2,6 +2,7 @@ mod avoid_writing_and_reading;
 mod calculate_file_sizes;
 mod file_modified;
 mod find_all_files;
+mod find_all_png_files;
 mod find_duplicate;
 mod find_loops;
 mod memory_map;
@@ -28,4 +29,7 @@ fn main() {
     }
     traverse_directories::traverse_directories_while_skipping_dotfiles();
     calculate_file_sizes::recursively_calculate_file_sizes_at_given_depth();
+    if let Err(e) = find_all_png_files::find_all_png_files_recursively() {
+        println!("{}", e);
+    }
 }
