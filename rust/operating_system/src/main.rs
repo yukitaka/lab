@@ -1,5 +1,6 @@
 mod piped_external_commands;
 mod process_stdout;
+mod redirect_both_stdout_and_stderr;
 mod stdin_and_check;
 
 fn main() {
@@ -12,6 +13,9 @@ fn main() {
         println!("{}", e);
     }
     if let Err(e) = piped_external_commands::run_piped_external_commands() {
+        println!("{}", e);
+    }
+    if let Err(e) = redirect_both_stdout_and_stderr::redirect_both_stdout_and_stderr_of_child_process_to_the_same_file() {
         println!("{}", e);
     }
 }
