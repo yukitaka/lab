@@ -1,3 +1,4 @@
+mod continuously_process;
 mod piped_external_commands;
 mod process_stdout;
 mod redirect_both_stdout_and_stderr;
@@ -16,6 +17,9 @@ fn main() {
         println!("{}", e);
     }
     if let Err(e) = redirect_both_stdout_and_stderr::redirect_both_stdout_and_stderr_of_child_process_to_the_same_file() {
+        println!("{}", e);
+    }
+    if let Err(e) = continuously_process::continuously_process_child_process_outputs() {
         println!("{}", e);
     }
 }
