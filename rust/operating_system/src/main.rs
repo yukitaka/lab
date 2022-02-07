@@ -1,6 +1,7 @@
 mod continuously_process;
 mod piped_external_commands;
 mod process_stdout;
+mod read_environment_variable;
 mod redirect_both_stdout_and_stderr;
 mod stdin_and_check;
 
@@ -20,6 +21,9 @@ fn main() {
         println!("{}", e);
     }
     if let Err(e) = continuously_process::continuously_process_child_process_outputs() {
+        println!("{}", e);
+    }
+    if let Err(e) = read_environment_variable::read_environment_variable() {
         println!("{}", e);
     }
 }
