@@ -1,5 +1,5 @@
 [package]
-name = "mathematics"
+name = "linear_algebra"
 version = "0.1.0"
 edition = "2021"
 
@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 ndarray = { version = "0.15.4", features = ["approx"] }
 approx = "0.4.0"
+nalgebra = "0.29.0"

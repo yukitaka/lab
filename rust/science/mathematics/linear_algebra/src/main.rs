@@ -1,4 +1,5 @@
 mod adding_matrices;
+mod invert_matrix;
 mod multiplying_matrices;
 mod vector_comparison;
 mod vector_norm;
@@ -9,4 +10,5 @@ fn main() {
     multiplying_matrices::multiply_a_scalar_with_a_vector_with_a_matrix();
     vector_comparison::vector_comparison();
     vector_norm::vector_norm();
+    invert_matrix::invert_matrix();
 }
