@@ -1,6 +1,9 @@
+use std::f64::consts::PI;
+
 fn main() {
     creating_complex_numbers();
     adding_complex_numbers();
+    mathematical_functions();
 }
 
 fn creating_complex_numbers() {
@@ -18,4 +21,10 @@ fn adding_complex_numbers() {
     let sum = complex_num1 + complex_num2;
 
     println!("Sum: {}", sum);
+}
+
+fn mathematical_functions() {
+    let x = num::complex::Complex::new(0.0, 2.0 * PI);
+
+    println!("e^(2i * pi) = {}", x.exp());
 }
