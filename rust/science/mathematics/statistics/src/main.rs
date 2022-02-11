@@ -4,4 +4,5 @@ mod quick_select;
 fn main() {
     measures_of_central::measures_of_central_tendency();
     quick_select::quick_select();
+    measures_of_central::using_hashmap();
 }
