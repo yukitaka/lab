@@ -2,6 +2,7 @@ mod hashtags;
 mod login;
 mod multiple_regular_expressions;
 mod phone;
+mod replace_all;
 
 fn main() {
     login::verify_and_extract_login_from_an_email_address();
@@ -14,4 +15,5 @@ fn main() {
     {
         println!("{}", e);
     }
+    replace_all::replace_all_occurrences_of_one_text_pattern_with_another_pattern();
 }
