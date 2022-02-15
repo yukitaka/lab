@@ -1,3 +1,4 @@
+mod create_new_urls;
 mod parse_url;
 mod removing_path;
 
@@ -6,6 +7,9 @@ fn main() {
         println!("{}", e);
     }
     if let Err(e) = removing_path::create_a_base_url_by_removing_path_segments() {
+        println!("{}", e);
+    }
+    if let Err(e) = create_new_urls::create_new_urls_from_a_base_url() {
         println!("{}", e);
     }
 }
