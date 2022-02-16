@@ -1,6 +1,7 @@
 mod create_new_urls;
 mod extract_origin;
 mod parse_url;
+mod remove_fragment;
 mod removing_path;
 
 fn main() {
@@ -17,6 +18,9 @@ fn main() {
         println!("{}", e);
     }
     if let Err(e) = extract_origin::extract_the_url_origin2() {
+        println!("{}", e);
+    }
+    if let Err(e) = remove_fragment::remove_fragment_identifiers_and_query_pairs_from_a_url() {
         println!("{}", e);
     }
 }
