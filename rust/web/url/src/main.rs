@@ -16,4 +16,7 @@ fn main() {
     if let Err(e) = extract_origin::extract_the_url_origin() {
         println!("{}", e);
     }
+    if let Err(e) = extract_origin::extract_the_url_origin2() {
+        println!("{}", e);
+    }
 }
