@@ -8,7 +8,7 @@ pub fn get_mime_type_from_filename() {
     }
 }
 
-fn find_mimetype(filename: &String) -> Mime {
+fn find_mimetype(filename: &str) -> Mime {
     let parts: Vec<&str> = filename.split('.').collect();
     let res = match parts.last() {
         Some(v) => match *v {
@@ -19,5 +19,5 @@ fn find_mimetype(filename: &String) -> Mime {
         },
         None => mime::TEXT_PLAIN,
     };
-    return res;
+    res
 }
