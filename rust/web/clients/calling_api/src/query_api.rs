@@ -1,6 +1,6 @@
-use reqwest::{Client, Error};
+use reqwest::{Client, ClientBuilder, Error, Result};
 use serde::Deserialize;
-use std::collections::HashMap;
+use std::time::Duration;
 
 #[derive(Deserialize, Debug)]
 struct User {
@@ -8,7 +8,7 @@ struct User {
     id: u32,
 }
 
-pub async fn query_the_github_api() -> Result<(), Error> {
+pub async fn query_the_github_api() -> Result<()> {
     let request_url = format!(
         "https://api.github.com/repos/{owner}/{repo}/stargazers",
         owner = "rust-lang-nursery",
@@ -24,5 +24,27 @@ pub async fn query_the_github_api() -> Result<(), Error> {
 
     let users = response.json::<Vec<User>>().await?;
     println!("{:?}", users);
+    Ok(())
+}
+
+pub async fn check_if_an_api_resource_exists() -> Result<()> {
+    let user = "ferris-the-crab";
+    let request_url = format!("https://api.github.com/users/{}", user);
+    println!("{}", request_url);
+
+    let timeout = Duration::new(5, 0);
+    let client = ClientBuilder::new().timeout(timeout).build()?;
+    let response = client
+        .head(&request_url)
+        .header(reqwest::header::USER_AGENT, "rust example")
+        .send()
+        .await?;
+
+    if response.status().is_success() {
+        println!("{} is a user!", user);
+    } else {
+        println!("{} is not a user!", user);
+    }
+
     Ok(())
 }
