@@ -1,8 +1,12 @@
 mod download_temporary;
+mod partial_download;
 mod post_file;
 
 fn main() {
     async_example();
+    if let Err(e) = partial_download::make_a_partial_download_with_http_range_headers() {
+        println!("{}", e);
+    }
 }
 
 #[tokio::main]

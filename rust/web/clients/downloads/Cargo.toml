@@ -8,5 +8,5 @@ edition = "2021"
 [dependencies]
 error-chain = "0.12.4"
 tempfile = "3.2.0"
-reqwest = "0.11.7"
+reqwest = { version = "0.11.7", features = ["blocking"] }
 tokio = { version = "1.15.0", features = ["macros", "rt-multi-thread"] }
