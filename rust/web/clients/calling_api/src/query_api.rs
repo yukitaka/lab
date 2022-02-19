@@ -1,8 +1,9 @@
-use reqwest::{Client, ClientBuilder, Error, Result};
+use reqwest::{ClientBuilder, Result};
 use serde::Deserialize;
 use std::time::Duration;
 
 #[derive(Deserialize, Debug)]
+#[allow(dead_code)]
 struct User {
     login: String,
     id: u32,
