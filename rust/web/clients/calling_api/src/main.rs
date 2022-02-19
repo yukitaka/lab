@@ -1,8 +1,16 @@
 mod gist;
 mod query_api;
+mod restful_api;
+
+fn main() {
+    async_example();
+    if let Err(e) = restful_api::consume_a_paginated_restful_api() {
+        println!("{}", e);
+    }
+}
 
 #[tokio::main]
-async fn main() {
+async fn async_example() {
     if let Err(e) = query_api::query_the_github_api().await {
         println!("{}", e);
     }
