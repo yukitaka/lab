@@ -18,6 +18,12 @@ pub fn add_closure() {
     assert_eq!(plus_two(2), 4);
 }
 
+pub fn impl_closure() {
+    let singles = vec![-3, -2, 2, 3];
+    let doubles = double_positives(&singles);
+    assert_eq!(doubles.collect::<Vec<i32>>(), vec![4, 6]);
+}
+
 /*
 use std::iter;
 use std::vec::IntoIter;
@@ -35,4 +41,8 @@ fn combine_vecs(v: Vec<i32>, u: Vec<i32>) -> impl Iterator<Item = i32> {
 
 fn make_addr_function(y: i32) -> impl Fn(i32) -> i32 {
     move |x: i32| x + y
+}
+
+fn double_positives(numbers: &[i32]) -> impl Iterator<Item = i32> + '_ {
+    numbers.iter().filter(|x| x > &&0).map(|x| x * 2)
 }

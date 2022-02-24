@@ -7,4 +7,5 @@ fn main() {
     }
     return_type::return_type();
     return_type::add_closure();
+    return_type::impl_closure();
 }
