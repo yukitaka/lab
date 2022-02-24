@@ -6,4 +6,5 @@ fn main() {
         println!("{}", e);
     }
     return_type::return_type();
+    return_type::add_closure();
 }

@@ -10,6 +10,14 @@ pub fn return_type() {
     println!("all done");
 }
 
+pub fn add_closure() {
+    let plus_one = make_addr_function(1);
+    assert_eq!(plus_one(2), 3);
+
+    let plus_two = make_addr_function(2);
+    assert_eq!(plus_two(2), 4);
+}
+
 /*
 use std::iter;
 use std::vec::IntoIter;
@@ -23,4 +31,8 @@ fn combine_vecs_explicit_return_type(
 
 fn combine_vecs(v: Vec<i32>, u: Vec<i32>) -> impl Iterator<Item = i32> {
     v.into_iter().chain(u.into_iter()).cycle()
+}
+
+fn make_addr_function(y: i32) -> impl Fn(i32) -> i32 {
+    move |x: i32| x + y
 }
