@@ -1,6 +1,7 @@
 fn main() {
     basic();
-    literals();
+    escape_with_backslash();
+    escape_with_raw_string();
 }
 
 fn basic() {
@@ -35,7 +36,7 @@ fn basic() {
     println!("Bob says: {}", bob);
 }
 
-fn literals() {
+fn escape_with_backslash() {
     let byte_escape = "I'm writing \x52\x75\x73\x74!";
     println!("What are you doing\x3F (\\x3F means ?) {}", byte_escape);
 
@@ -52,4 +53,15 @@ fn literals() {
                               The linebreak and indentation here ->\
                               <- can be escaped too!";
     println!("{}", long_string);
+}
+
+fn escape_with_raw_string() {
+    let raw_str = r"Escapes don't work here: \x3F \u{211D}";
+    println!("{}", raw_str);
+
+    let quotes = r#"And then I said: "There is no escape!""#;
+    println!("{}", quotes);
+
+    let longer_delimiter = r###"A string with "# in it. And even "##!""###;
+    println!("{}", longer_delimiter);
 }
