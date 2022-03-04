@@ -2,6 +2,7 @@ fn main() {
     basic();
     escape_with_backslash();
     escape_with_raw_string();
+    encoding();
 }
 
 fn basic() {
@@ -64,4 +65,32 @@ fn escape_with_raw_string() {
 
     let longer_delimiter = r###"A string with "# in it. And even "##!""###;
     println!("{}", longer_delimiter);
+}
+
+fn encoding() {
+    use std::str;
+    use encoding_rs::SHIFT_JIS;
+
+    let bytestring: &[u8; 21] = b"this is a byte string";
+    println!("A byte string: {:?}", bytestring);
+
+    let escaped = b"\x52\x75\x73\x74 as bytes";
+    println!("Some escaped bytes: {:?}", escaped);
+
+    let raw_bytestring = br"\u{211D} is not escaped here";
+    println!("{:?}", raw_bytestring);
+
+    if let Ok(my_str) = str::from_utf8(raw_bytestring) {
+        println!("And the same as text: '{}'", my_str);
+    }
+
+    let _quotes = br#"You can also use "fancier" formatting, \
+                    like with normal raw strings"#;
+
+    let shift_jis = b"\x82\xe6\x82\xa4\x82\xb1\x82\xbb";
+
+    match SHIFT_JIS.decode(shift_jis) {
+        (my_str, _, false) => println!("Conversion successful: '{}'", my_str),
+        (_, _, e) => println!("Conversion failed: {:?}", e),
+    }
 }
