@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+mod hash_set;
 mod logon;
 
 fn call(number: &str) -> &str {
@@ -43,4 +44,5 @@ fn main() {
     }
 
     logon::account_logon();
+    hash_set::hash_set();
 }
