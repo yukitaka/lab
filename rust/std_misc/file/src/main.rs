@@ -11,6 +11,8 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::path::Path;
 
+mod readlines;
+
 fn main() {
     println!(">>> create");
     let path = Path::new("lorem_ipsum.txt");
@@ -37,4 +39,6 @@ fn main() {
         Err(why) => panic!("couldn't read {}: {}", display, why),
         Ok(_) => print!("{} contains:\n{}", display, s),
     }
+
+    readlines::read();
 }
