@@ -40,6 +40,18 @@ mod tests {
     }
 
     #[test]
+    fn test_add_hundred() {
+        assert_eq!(add(100, 2), 102);
+        assert_eq!(add(2, 100), 102);
+    }
+
+    #[test]
+    #[ignore] // can `cargo test -- --ignored`
+    fn ignore_test() {
+        assert_eq!(add(0, 0), 0);
+    }
+
+    #[test]
     fn test_bad_add() {
         assert_ne!(bad_add(1, 2), 3);
     }
