@@ -2,6 +2,7 @@ use std::arch::asm;
 
 fn main() {
     register_template_modifiers();
+    load_fpu_control_word(10);
 }
 
 fn register_template_modifiers() {
@@ -12,4 +13,10 @@ fn register_template_modifiers() {
     }
 
     assert_eq!(x, 0xabab);
+}
+
+fn load_fpu_control_word(control: u16) {
+    unsafe {
+        asm!("fldcw [{}]", in(reg) &control, options(nostack));
+    }
 }
