@@ -1,4 +1,5 @@
 mod debug;
+mod display;
 
 #[allow(clippy::print_literal)]
 fn main() {
@@ -21,4 +22,5 @@ fn main() {
     println!("{number:0>width$}", number = 1, width = 6);
 
     debug::debug();
+    display::display();
 }
