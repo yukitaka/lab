@@ -1,3 +1,5 @@
+mod debug;
+
 #[allow(clippy::print_literal)]
 fn main() {
     println!("{} days", 31);
@@ -17,4 +19,6 @@ fn main() {
 
     println!("{number:>width$}", number = 1, width = 6);
     println!("{number:0>width$}", number = 1, width = 6);
+
+    debug::debug();
 }
