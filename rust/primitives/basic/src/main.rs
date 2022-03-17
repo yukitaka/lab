@@ -1,3 +1,5 @@
+mod literals;
+
 fn main() {
     let logical: bool = true;
     println!("{}", logical);
@@ -21,4 +23,6 @@ fn main() {
 
     let mutable = true;
     println!("{}", mutable);
+
+    literals::literals();
 }
