@@ -1,3 +1,6 @@
+#![feature(custom_test_frameworks)]
+#![test_runner(crate::test_runner)]
+
 #![no_std]
 #![no_main]
 
@@ -16,4 +19,12 @@ pub extern "C" fn _start() -> ! {
 fn panic(info: &PanicInfo) -> ! {
     println!("{}", info);
     loop {}
+}
+
+#[cfg(test)]
+fn test_runner(tests: &[&dyn Fn()]) {
+    println!("Running {} tests", tests.len());
+    for test in tests {
+        test();
+    }
 }
