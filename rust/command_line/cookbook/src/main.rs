@@ -1,4 +1,7 @@
+mod environment;
+
 fn main() {
+    environment::test_env();
     argument_parsing();
     printing_colored_text_to_the_terminal();
     bold_text_in_terminal();
