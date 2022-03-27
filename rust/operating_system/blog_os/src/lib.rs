@@ -17,6 +17,12 @@ pub fn init() {
     interrupts::init_idt();
 }
 
+pub fn hlt_loop() -> ! {
+    loop {
+        x86_64::instructions::hlt();
+    }
+}
+
 pub trait Testable {
     fn run(&self) -> ();
 }
