@@ -1,3 +1,5 @@
+use std::thread::sleep;
+use std::time::Duration;
 use clap::Parser;
 use anyhow::{Context, Result};
 
@@ -15,6 +17,13 @@ fn main() -> Result<()> {
     let args = Cli::parse();
     let content = std::fs::read_to_string(&args.path)
         .with_context(|| format!("could not read file `{:?}`", &args.path))?;
+
+    let pb = indicatif::ProgressBar::new(100);
+    for _i in 0..100 {
+        sleep(Duration::from_millis(10));
+        pb.inc(2);
+    }
+    pb.finish_with_message("done");
 
     println!("file content: {}", content);
     Ok(())
