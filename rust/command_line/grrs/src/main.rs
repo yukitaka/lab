@@ -2,6 +2,7 @@ use std::thread::sleep;
 use std::time::Duration;
 use clap::Parser;
 use anyhow::{Context, Result};
+use log::{info, warn};
 
 /// Search for a pattern in a file and display the lines that contain it.
 #[derive(Parser, Debug)]
@@ -14,6 +15,8 @@ struct Cli {
 }
 
 fn main() -> Result<()> {
+    env_logger::init();
+    info!("starting up");
     let args = Cli::parse();
     let content = std::fs::read_to_string(&args.path)
         .with_context(|| format!("could not read file `{:?}`", &args.path))?;
