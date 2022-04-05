@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 fn main() {
     let nc = nats::Options::new()
         .with_name("nats example")
@@ -5,13 +7,11 @@ fn main() {
     println!("{:?}", &nc);
 
     if let Ok(nc) = nc {
-        if let Err(err) = nc.publish("example", "message") {
-            println!("{}", err);
-        }
-        if let Ok(sub) = nc.subscribe("example") {
-            for msg in sub.messages() {
-                println!("Received a {:?}", msg);
-            }
-        }
+        let sub = nc.subscribe("example").unwrap();
+
+        nc.publish("example", "message").ok();
+
+        let msg = sub.next_timeout(Duration::from_secs(1)).unwrap();
+        println!("Received a {:?} {:?}", &msg, String::from_utf8(msg.data.clone()));
     }
 }
