@@ -1,4 +1,4 @@
-version: "3"
+version: "3.5"
 services:
   nats:
     image: nats
@@ -6,7 +6,9 @@ services:
       - 4222:4222
       - 6222:6222
       - 8222:8222
+    command: "--auth test-token"
     networks:
       - nats
 networks:
-  nats: {}
+  nats:
+    name: nats

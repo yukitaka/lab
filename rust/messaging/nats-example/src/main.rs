@@ -1,7 +1,7 @@
 use std::time::Duration;
 
 fn main() {
-    let nc = nats::Options::new()
+    let nc = nats::Options::with_token("test-token")
         .with_name("nats example")
         .connect("127.0.0.1");
     println!("{:?}", &nc);
@@ -12,6 +12,10 @@ fn main() {
         nc.publish("example", "message").ok();
 
         let msg = sub.next_timeout(Duration::from_secs(1)).unwrap();
-        println!("Received a {:?} {:?}", &msg, String::from_utf8(msg.data.clone()));
+        println!(
+            "Received a {:?} {:?}",
+            &msg,
+            String::from_utf8(msg.data.clone())
+        );
     }
 }
