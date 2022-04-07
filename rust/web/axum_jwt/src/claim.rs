@@ -1,13 +1,13 @@
-use std::fmt::Display;
+use crate::AuthError;
+use crate::KEYS;
 use axum::{
     async_trait,
     extract::{FromRequest, RequestParts, TypedHeader},
     headers::{authorization::Bearer, Authorization},
 };
 use jsonwebtoken::{decode, Validation};
-use serde::{Serialize, Deserialize};
-use crate::KEYS;
-use crate::AuthError;
+use serde::{Deserialize, Serialize};
+use std::fmt::Display;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Claims {
@@ -24,8 +24,8 @@ impl Display for Claims {
 
 #[async_trait]
 impl<B> FromRequest<B> for Claims
-    where
-        B: Send,
+where
+    B: Send,
 {
     type Rejection = AuthError;
 
@@ -41,4 +41,3 @@ impl<B> FromRequest<B> for Claims
         Ok(token_data.claims)
     }
 }
-

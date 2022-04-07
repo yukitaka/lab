@@ -2,22 +2,19 @@ use axum::{
     routing::{get, post},
     Json, Router,
 };
-use jsonwebtoken::{encode, DecodingKey, EncodingKey, Header};
-use once_cell::sync::Lazy;
+use jsonwebtoken::{encode, Header};
 use serde::{Deserialize, Serialize};
 use std::net::SocketAddr;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+
+mod key;
+use crate::key::KEYS;
 
 mod claim;
 use crate::claim::Claims;
 
 mod error;
 use crate::error::AuthError;
-
-pub static KEYS: Lazy<Keys> = Lazy::new(|| {
-    let secret = std::env::var("JWT_SECRET").expect("JWT_SECRET must be set");
-    Keys::new(secret.as_bytes())
-});
 
 #[tokio::main]
 async fn main() {
@@ -65,20 +62,6 @@ async fn authorize(Json(payload): Json<AuthPayload>) -> Result<Json<AuthBody>, A
         .map_err(|_| AuthError::TokenCreation)?;
 
     Ok(Json(AuthBody::new(token)))
-}
-
-pub struct Keys {
-    encoding: EncodingKey,
-    decoding: DecodingKey,
-}
-
-impl Keys {
-    fn new(secret: &[u8]) -> Self {
-        Self {
-            encoding: EncodingKey::from_secret(secret),
-            decoding: DecodingKey::from_secret(secret),
-        }
-    }
 }
 
 #[derive(Debug, Serialize)]
