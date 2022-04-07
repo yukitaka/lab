@@ -1,18 +1,18 @@
 use axum::{
-    http::StatusCode,
-    response::{IntoResponse, Response},
     routing::{get, post},
     Json, Router,
 };
 use jsonwebtoken::{encode, DecodingKey, EncodingKey, Header};
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
-use serde_json::json;
 use std::net::SocketAddr;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 mod claim;
 use crate::claim::Claims;
+
+mod error;
+use crate::error::AuthError;
 
 pub static KEYS: Lazy<Keys> = Lazy::new(|| {
     let secret = std::env::var("JWT_SECRET").expect("JWT_SECRET must be set");
@@ -100,27 +100,4 @@ impl AuthBody {
 struct AuthPayload {
     client_id: String,
     client_secret: String,
-}
-
-#[derive(Debug)]
-pub enum AuthError {
-    WrongCredentials,
-    MissingCredentials,
-    TokenCreation,
-    InvalidToken,
-}
-
-impl IntoResponse for AuthError {
-    fn into_response(self) -> Response {
-        let (status, error_message) = match self {
-            AuthError::WrongCredentials => (StatusCode::UNAUTHORIZED, "Wrong credentials"),
-            AuthError::MissingCredentials => (StatusCode::BAD_REQUEST, "Missing credentials"),
-            AuthError::TokenCreation => (StatusCode::INTERNAL_SERVER_ERROR, "Token creation error"),
-            AuthError::InvalidToken => (StatusCode::BAD_REQUEST, "Invalid token"),
-        };
-        let body = Json(json!({
-            "error": error_message,
-        }));
-        (status, body).into_response()
-    }
 }
