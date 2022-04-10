@@ -1,3 +1,4 @@
+mod iter;
 mod literals;
 
 fn main() {
@@ -25,4 +26,6 @@ fn main() {
     println!("{}", mutable);
 
     literals::literals();
+
+    iter::run();
 }
