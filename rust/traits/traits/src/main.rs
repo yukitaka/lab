@@ -1,3 +1,4 @@
+#[derive(Clone)]
 struct Sheep {
     naked: bool,
     name: &'static str,
@@ -49,12 +50,25 @@ impl Animal for Sheep {
     }
 }
 
-fn keep<T>(one: T)
-where
-    T: Animal
-{
-    println!("We keep a {}", one.name());
-    println!("{}", one.noise());
+struct Owner<T: Animal + ?Sized> {
+    pet: Pet<T>,
+}
+
+enum Pet<T: Animal + ?Sized> {
+    Some(Box<T>),
+    None,
+}
+
+impl<T: Animal + Clone> Owner<T> {
+    fn new() -> Self where Self: Sized {
+        Owner { pet: Pet::None }
+    }
+
+    fn keep(mut self, one: T) {
+        println!("We keep a {}", one.name());
+        println!("{}", one.noise());
+        self.pet = Pet::Some(Box::new(one));
+    }
 }
 
 fn main() {
@@ -64,5 +78,6 @@ fn main() {
     dolly.shear();
     dolly.talk();
 
-    keep(dolly);
+    let owner = Owner::new();
+    owner.keep(dolly);
 }
