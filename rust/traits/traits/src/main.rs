@@ -49,10 +49,20 @@ impl Animal for Sheep {
     }
 }
 
+fn keep<T>(one: T)
+where
+    T: Animal
+{
+    println!("We keep a {}", one.name());
+    println!("{}", one.noise());
+}
+
 fn main() {
     let mut dolly: Sheep = Animal::new("Dolly");
 
     dolly.talk();
     dolly.shear();
     dolly.talk();
+
+    keep(dolly);
 }
