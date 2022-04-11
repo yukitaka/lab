@@ -50,17 +50,17 @@ impl Animal for Sheep {
     }
 }
 
-struct Owner<T: Animal + ?Sized> {
+struct Owner<T: Animal> {
     pet: Pet<T>,
 }
 
-enum Pet<T: Animal + ?Sized> {
+enum Pet<T: Animal> {
     Some(Box<T>),
     None,
 }
 
 impl<T: Animal + Clone> Owner<T> {
-    fn new() -> Self where Self: Sized {
+    fn new() -> Self {
         Owner { pet: Pet::None }
     }
 
