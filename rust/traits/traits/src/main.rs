@@ -50,6 +50,20 @@ impl Animal for Sheep {
     }
 }
 
+struct Dog {
+    name: &'static str,
+}
+
+impl Animal for Dog {
+    fn new(name: &'static str) -> Dog { Dog { name } }
+
+    fn name(&self) -> &'static str { self.name }
+
+    fn noise(&self) -> &'static str {
+        "woof!"
+    }
+}
+
 struct Owner<T: Animal> {
     pet: Pet<T>,
 }
@@ -80,4 +94,7 @@ fn main() {
 
     let owner = Owner::new();
     owner.keep(dolly);
+
+    let mocha: Dog = Animal::new("Mocha");
+    mocha.talk();
 }
