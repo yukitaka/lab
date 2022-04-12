@@ -50,14 +50,19 @@ impl Animal for Sheep {
     }
 }
 
+#[derive(Clone)]
 struct Dog {
     name: &'static str,
 }
 
 impl Animal for Dog {
-    fn new(name: &'static str) -> Dog { Dog { name } }
+    fn new(name: &'static str) -> Dog {
+        Dog { name }
+    }
 
-    fn name(&self) -> &'static str { self.name }
+    fn name(&self) -> &'static str {
+        self.name
+    }
 
     fn noise(&self) -> &'static str {
         "woof!"
@@ -97,4 +102,6 @@ fn main() {
 
     let mocha: Dog = Animal::new("Mocha");
     mocha.talk();
+    let owner = Owner::new();
+    owner.keep(mocha);
 }
