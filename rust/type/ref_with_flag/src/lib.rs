@@ -28,3 +28,20 @@ pub mod ref_with_flag {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn check_size() {
+        assert_eq!(std::mem::size_of::<i32>(), 4);
+        assert_eq!(std::mem::size_of::<ref_with_flag::RefWithFlag<i32>>(), 8);
+
+        assert_eq!(std::mem::size_of::<Vec<i32>>(), 24);
+        assert_eq!(
+            std::mem::size_of::<ref_with_flag::RefWithFlag<Vec<i32>>>(),
+            8
+        );
+    }
+}
