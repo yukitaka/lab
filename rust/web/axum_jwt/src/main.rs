@@ -4,8 +4,9 @@ use axum::{
 };
 use jsonwebtoken::{encode, Header};
 use serde::{Deserialize, Serialize};
-use std::net::SocketAddr;
+use std::{time::{SystemTime, UNIX_EPOCH}, net::SocketAddr};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+use uuid::Uuid;
 
 mod key;
 use crate::key::KEYS;
@@ -52,10 +53,17 @@ async fn authorize(Json(payload): Json<AuthPayload>) -> Result<Json<AuthBody>, A
     if payload.client_id != "foo" || payload.client_secret != "bar" {
         return Err(AuthError::WrongCredentials);
     }
+    let now = SystemTime::now();
+    let epoc = now.duration_since(UNIX_EPOCH).unwrap().as_secs() as usize;
     let claims = Claims {
-        sub: "b@b.com".to_owned(),
-        company: "ACME".to_owned(),
+        iss: "https://localhost".to_string(),
+        sub: 1,
+        aud: "api-cluster".to_string(),
+        iat: epoc,
         exp: 2_000_000_000,
+        jti: Uuid::new_v4().to_string(),
+        nickname: "Taka".to_string(),
+        zoneinfo: "Asia/Tokyo".to_string(),
     };
 
     let token = encode(&Header::default(), &claims, &KEYS.encoding)

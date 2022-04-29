@@ -11,14 +11,19 @@ use std::fmt::Display;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Claims {
-    pub sub: String,
-    pub company: String,
+    pub iss: String,
+    pub sub: i32,
+    pub aud: String,
+    pub iat: usize,
     pub exp: usize,
+    pub jti: String,
+    pub nickname: String,
+    pub zoneinfo: String,
 }
 
 impl Display for Claims {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "Email: {}\nCompany: {}", self.sub, self.company)
+        write!(f, "ID: {}\nNickname: {}\niat: {}\nexp: {}", self.sub, self.nickname, self.iat, self.exp)
     }
 }
 
