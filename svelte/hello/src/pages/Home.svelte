@@ -1,6 +1,7 @@
 <script lang="ts">
   import Fa from 'svelte-fa/src/fa.svelte'
   import { faPlus } from '@fortawesome/free-solid-svg-icons'
+  import type { NoteType } from '@/types/app'
 </script>
 
 <main>
