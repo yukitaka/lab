@@ -2,6 +2,8 @@
   import Fa from 'svelte-fa/src/fa.svelte'
   import { faPlus } from '@fortawesome/free-solid-svg-icons'
   import type { NoteType } from '@/types/app'
+
+  import Note from '@/components/Note.svelte'
 </script>
 
 <main>
