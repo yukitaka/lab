@@ -4,6 +4,23 @@
   import type { NoteType } from '@/types/app'
 
   import Note from '@/components/Note.svelte'
+
+  let notesJSONString: string = localStorage.getItem('notes')
+  let notes: Array<NoteType> = []
+
+  if (notesJSONString) {
+  } else {
+    notes = [
+      {
+        id: 1,
+        title: 'Some Note',
+        content: 'This note is about this and that',
+        date: '202211072324',
+        isFavorite: false,
+        tags: ['test', 'text']
+      }
+    ]
+  }
 </script>
 
 <main>
@@ -11,6 +28,10 @@
     <div class="note-card-add">
       <Fa icon={faPlus} color="#afaeae" size="3x" />
     </div>
+
+    {#each notes as note (note.id)}
+      <Note {...note} />
+    {/each}
   </div>
 </main>
 
