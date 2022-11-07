@@ -6,6 +6,7 @@
 
   export let title: string
   export let content: string
+  export let date: string
 
   const trimContent = (content: string) => {
     if (content.length > 100) {
@@ -19,6 +20,10 @@
 <div class="note-card">
   <div class="title">{title}</div>
   <div class="preview">{trimContent(content)}</div>
+
+  <div class="card-footer">
+    <div class="date">{formatDate(date)}</div>
+  </div>
 </div>
 
 <style lang="scss">
@@ -43,6 +48,17 @@
       color: #2f2f2f;
       font-size: 15px;
       word-break: break-word;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+
+      .date {
+        color: #afaeae;
+        font-size: 14px;
+      }
     }
   }
 </style>
