@@ -4,9 +4,14 @@
   import { createEventDispatcher } from 'svelte'
   import { formatDate } from '@/libs/utils'
 
+  let id: number
   export let title: string
   export let content: string
   export let date: string
+  export let isFavorite: boolean
+  export let tags: string[]
+
+  const dispatch = createEventDispatcher();
 
   const trimContent = (content: string) => {
     if (content.length > 100) {
@@ -17,12 +22,21 @@
   }
 </script>
 
-<div class="note-card">
+<div class="note-card" on:click>
   <div class="title">{title}</div>
   <div class="preview">{trimContent(content)}</div>
 
+  <div class="tag-wrapper">
+  {#each tags as tag (tag)}
+    <div class="tag">{tag}</div>
+  {/each}
+  </div>
+
   <div class="card-footer">
     <div class="date">{formatDate(date)}</div>
+    <div class="fav-icon" on:click|stopPropagation="{() => dispatch('toggleFavorite', id)}">
+      <Fa icon={faStar} color="{isFavorite ? '#ffda00' : '#afaeae'}" />
+    </div>
   </div>
 </div>
 
@@ -50,6 +64,22 @@
       word-break: break-word;
     }
 
+    .tag {
+      background-color: #d6d2d2;
+      color: #d60000;
+      padding: 2px 10x;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-right: 5px;
+      height: 20px;
+
+      &-wrapper {
+        display: flex;
+        align-items: flex-end;
+        flex-wrap: wrap;
+      }
+    }
+
     .card-footer {
       display: flex;
       justify-content: space-between;
@@ -59,6 +89,10 @@
         color: #afaeae;
         font-size: 14px;
       }
+    }
+    
+    .fav-icon {
+      cursor: pointer;
     }
   }
 </style>
