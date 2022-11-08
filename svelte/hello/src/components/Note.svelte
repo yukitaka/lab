@@ -4,9 +4,13 @@
   import { createEventDispatcher } from 'svelte'
   import { formatDate } from '@/libs/utils'
 
+  let id: number
   export let title: string
   export let content: string
   export let date: string
+  export let isFavorite: boolean
+
+  const dispatch = createEventDispatcher();
 
   const trimContent = (content: string) => {
     if (content.length > 100) {
@@ -17,12 +21,15 @@
   }
 </script>
 
-<div class="note-card">
+<div class="note-card" on:click>
   <div class="title">{title}</div>
   <div class="preview">{trimContent(content)}</div>
 
   <div class="card-footer">
     <div class="date">{formatDate(date)}</div>
+    <div class="fav-icon" on:click|stopPropagation="{() => dispatch('toggleFavorite', id)}">
+      <Fa icon={faStar} color="{isFavorite ? '#ffda00' : '#afaeae'}" />
+    </div>
   </div>
 </div>
 
@@ -59,6 +66,10 @@
         color: #afaeae;
         font-size: 14px;
       }
+    }
+    
+    .fav-icon {
+      cursor: pointer;
     }
   }
 </style>
