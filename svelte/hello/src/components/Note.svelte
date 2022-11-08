@@ -9,6 +9,7 @@
   export let content: string
   export let date: string
   export let isFavorite: boolean
+  export let tags: string[]
 
   const dispatch = createEventDispatcher();
 
@@ -24,6 +25,12 @@
 <div class="note-card" on:click>
   <div class="title">{title}</div>
   <div class="preview">{trimContent(content)}</div>
+
+  <div class="tag-wrapper">
+  {#each tags as tag (tag)}
+    <div class="tag">{tag}</div>
+  {/each}
+  </div>
 
   <div class="card-footer">
     <div class="date">{formatDate(date)}</div>
@@ -55,6 +62,22 @@
       color: #2f2f2f;
       font-size: 15px;
       word-break: break-word;
+    }
+
+    .tag {
+      background-color: #d6d2d2;
+      color: #d60000;
+      padding: 2px 10x;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-right: 5px;
+      height: 20px;
+
+      &-wrapper {
+        display: flex;
+        align-items: flex-end;
+        flex-wrap: wrap;
+      }
     }
 
     .card-footer {
