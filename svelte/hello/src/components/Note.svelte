@@ -4,7 +4,7 @@
   import { createEventDispatcher } from 'svelte'
   import { formatDate } from '@/libs/utils'
 
-  let id: number
+  export let id: number
   export let title: string
   export let content: string
   export let date: string
