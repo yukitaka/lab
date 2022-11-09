@@ -22,12 +22,19 @@
     ]
   }
 
+  const saveNotesToStorage = () => {
+    notes = notes
+
+    localStorage.setItem('notes', JSON.stringify(notes))
+  }
+
   const toggleFavorite = (event: CustomEvent) => {
     const noteId: number = (event.detail as number)
     const note = notes.find(item => item.id === noteId)
 
     if (note) {
       note.isFavorite = !note.isFavorite
+      saveNotesToStorage()
     }
   }
 </script>
