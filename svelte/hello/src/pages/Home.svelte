@@ -9,6 +9,11 @@
   let notes: Array<NoteType> = []
 
   if (notesJSONString) {
+    try {
+      notes = JSON.parse(notesJSONString) as NoteType[]
+    } catch(err) {
+      console.error(err)
+    }
   } else {
     notes = [
       {
