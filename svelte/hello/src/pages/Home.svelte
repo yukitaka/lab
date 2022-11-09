@@ -4,11 +4,17 @@
   import type { NoteType } from '@/types/app'
 
   import Note from '@/components/Note.svelte'
+  import DeleteNoteModal from '@/components/DeleteNoteModal.svelte'
 
   let notesJSONString: string = localStorage.getItem('notes')
   let notes: Array<NoteType> = []
 
   if (notesJSONString) {
+    try {
+      notes = JSON.parse(notesJSONString) as NoteType[]
+    } catch(err) {
+      console.error(err)
+    }
   } else {
     notes = [
       {
@@ -20,6 +26,24 @@
         tags: ['test', 'text']
       }
     ]
+  }
+
+  let noteToDelete: NoteType | Record<string, unknown> | undefined
+  let showDeleteModal = false
+
+  const openDeleteNote = (event: CustomEvent) => {
+    const deleteNoteIndex = event.detail as number
+    const noteIndex = notes.findIndex(item => item.id === deleteNoteIndex)
+
+    if (noteIndex !== -1) {
+      noteToDelte = notes[noteindex]
+      showDeleteModal = true
+    }
+  }
+
+  const closeDeleteModal = () => {
+    noteToDelete = {}
+    showDeleteModal = false
   }
 
   const saveNotesToStorage = () => {
@@ -37,6 +61,11 @@
       saveNotesToStorage()
     }
   }
+
+  const deleteNote = (event: CustomEvent) => {
+    closeDeleteModal()
+    saveNotesToStorage()
+  }
 </script>
 
 <main>
@@ -50,6 +79,14 @@
     {/each}
   </div>
 </main>
+
+{#if showDeleteModal}
+  <DeleteNoteModal
+    {...noteToDelete}
+    on:delete="{deleteNote}"
+    on:close="{closeDeleteModal}"
+  />
+{/if}
 
 <style lang="scss">
   main {
