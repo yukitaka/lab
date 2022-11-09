@@ -21,6 +21,22 @@
       }
     ]
   }
+
+  const saveNotesToStorage = () => {
+    notes = notes
+
+    localStorage.setItem('notes', JSON.stringify(notes))
+  }
+
+  const toggleFavorite = (event: CustomEvent) => {
+    const noteId: number = (event.detail as number)
+    const note = notes.find(item => item.id === noteId)
+
+    if (note) {
+      note.isFavorite = !note.isFavorite
+      saveNotesToStorage()
+    }
+  }
 </script>
 
 <main>
@@ -30,7 +46,7 @@
     </div>
 
     {#each notes as note (note.id)}
-      <Note {...note} />
+      <Note {...note} on:toggleFavorite="{toggleFavorite}" />
     {/each}
   </div>
 </main>
