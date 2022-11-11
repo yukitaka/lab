@@ -27,7 +27,7 @@
   })
 </script>
 
-<Modal>
+<Modal on:closeModal="{() => dispatch('close')}">
   <div slot="body" class="modal-body">
     <textarea
       id="note-content"
@@ -40,12 +40,20 @@
   </div>
 
   <div slot="footer" class="modal-footer">
-    <button
-      class="button save {!canSave? 'disabled' : ''}"
-      on:click|stopPropagation="{saveNote}"
-    >
-      Save
-    </button>
+    <div class="buttons-wrapper">
+      <button
+        class="button save {!canSave? 'disabled' : ''}"
+        on:click|stopPropagation="{saveNote}"
+      >
+        Save
+      </button>
+      <button
+        class="button"
+        on:click|stopPropagation="{() => dispatch('close')}"
+      >
+        Cancel
+      </button>
+    </div>
   </div>
 </Modal>
 
@@ -63,6 +71,10 @@
       padding: 0 15px;
       display: grid;
       grid-template-columns: 1fr 1fr;
+
+      .buttons-wrapper {
+        text-align: right;
+      }
 
       .button {
         height: 30px;
