@@ -30,7 +30,7 @@
   }
 
   let noteToEdit: NoteType | Record<string, unknown> | undefined
-  let showEditModel = false
+  let showEditModal = false
 
   const openEditNote = (note?: NoteType) => {
     showEditModal = true
@@ -74,6 +74,10 @@
     }
   }
 
+  const saveNote = (event: CustomEvent) => {
+    closeEditModal()
+  }
+
   const deleteNote = (event: CustomEvent) => {
     closeDeleteModal()
     saveNotesToStorage()
@@ -91,6 +95,15 @@
     {/each}
   </div>
 </main>
+
+{#if showEditModal}
+  <EditNoteModal
+    {...noteToEdit}
+    on:save="{saveNote}"
+    on:delete="{openDeleteNote}"
+    on:close="{closeEditModal}"
+  />
+{/if}
 
 {#if showDeleteModal}
   <DeleteNoteModal
