@@ -4,6 +4,7 @@
   import type { NoteType } from '@/types/app'
 
   import Note from '@/components/Note.svelte'
+  import EditNoteModal from '@/components/EditNoteModal.svelte'
   import DeleteNoteModal from '@/components/DeleteNoteModal.svelte'
 
   let notesJSONString: string = localStorage.getItem('notes')
@@ -26,6 +27,17 @@
         tags: ['test', 'text']
       }
     ]
+  }
+
+  let noteToEdit: NoteType | Record<string, unknown> | undefined
+  let showEditModel = false
+
+  const openEditNote = (note?: NoteType) => {
+    showEditModal = true
+  }
+
+  const closeEditModal = () => {
+    showEditModal = false
   }
 
   let noteToDelete: NoteType | Record<string, unknown> | undefined
@@ -70,7 +82,7 @@
 
 <main>
   <div class="note-card-container">
-    <div class="note-card-add">
+    <div class="note-card-add" on:click="{() => { openEditNote() }}">
       <Fa icon={faPlus} color="#afaeae" size="3x" />
     </div>
 
