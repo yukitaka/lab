@@ -10,6 +10,7 @@
   <div class="modal">
     <div class="modal-header">
       <slot name="title"></slot>
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
       <div class="close-icon" on:click="{() => dispatch('closeModal')}">
         <Fa icon={faTimes} color="#afaeae" size="1x" />
       </div>
