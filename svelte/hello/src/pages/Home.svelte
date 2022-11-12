@@ -86,6 +86,7 @@
 
 <main>
   <div class="note-card-container">
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div class="note-card-add" on:click="{() => { openEditNote() }}">
       <Fa icon={faPlus} color="#afaeae" size="3x" />
     </div>
