@@ -109,4 +109,10 @@ import moment from 'moment'
       }
     }
   }
+
+  #note-content {
+    resize: vertical;
+    height: fit-content;
+    min-height: 30px;
+  }
 </style>
