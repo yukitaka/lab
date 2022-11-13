@@ -1,8 +1,10 @@
 <script lang="ts">
+import moment from 'moment'
   import { createEventDispatcher, onMount } from 'svelte'
   import Modal from '@/components/Modal.svelte'
 
   export let title: string | undefined = undefined
+  export let date: string | undefined = undefined
   export let content: string | undefined = undefined
 
   $: canSave = Boolean(title && content)
@@ -37,6 +39,11 @@
       type="textarea"
       on:input="{onInput}"
     />
+
+    {#if date}
+      <div class="label">Last Updated:</div>
+      <div class="text">{ formatDate(date) }</div>
+    {/if}
   </div>
 
   <div slot="footer" class="modal-footer">
@@ -65,6 +72,18 @@
       display: grid;
       grid-template-columns: 1fr 3fr;
       gap: 15px 0;
+
+      .label {
+        grid-column: 1;
+        line-height: 30px;
+      }
+
+      .text {
+        height: 30px;
+        color: #808080;
+        display: flex;
+        align-items: center;
+      }
     }
 
     &-footer {
