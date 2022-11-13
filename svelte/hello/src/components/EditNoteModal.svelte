@@ -1,9 +1,16 @@
 <script lang="ts">
+  import moment from 'moment'
   import { createEventDispatcher, onMount } from 'svelte'
   import Modal from '@/components/Modal.svelte'
+  import { formatDate } from '@/libs/utils'
 
+  export let id: number | undefined = undefined
   export let title: string | undefined = undefined
+  export let date: string | undefined = undefined
   export let content: string | undefined = undefined
+  export let tags: string[] | undefined = undefined
+
+  let tagString = tags && tags.length ? tags.join(',') : ''
 
   $: canSave = Boolean(title && content)
 
@@ -28,7 +35,16 @@
 </script>
 
 <Modal on:closeModal="{() => dispatch('close')}">
+  <div slot="title" class="title"> {id ? 'Edit' : 'Create' } Post</div>
+
   <div slot="body" class="modal-body">
+    <label class="label" for="note-title">Title:</label>
+    <input bind:value={title} id="note-title" class="imput" type="text" />
+
+    <label class="label" for="note-tags">Tags:</label>
+    <input bind:value={tagString} id="note-tags" class="input" type="text" />
+
+    <label class="label" for="note-content">Content:</label>
     <textarea
       id="note-content"
       bind:this={textarea}
@@ -37,6 +53,11 @@
       type="textarea"
       on:input="{onInput}"
     />
+
+    {#if date}
+      <div class="label">Last Updated:</div>
+      <div class="text">{ formatDate(date) }</div>
+    {/if}
   </div>
 
   <div slot="footer" class="modal-footer">
@@ -65,6 +86,26 @@
       display: grid;
       grid-template-columns: 1fr 3fr;
       gap: 15px 0;
+
+      .label {
+        color: #363636;
+        grid-column: 1;
+        line-height: 30px;
+      }
+
+      .input {
+        grid-column: 2;
+        height: 30px;
+        border-radius: 5px;
+        border: 1px solid #c3c3c3;
+      }
+
+      .text {
+        height: 30px;
+        color: #808080;
+        display: flex;
+        align-items: center;
+      }
     }
 
     &-footer {
@@ -89,5 +130,11 @@
         }
       }
     }
+  }
+
+  #note-content {
+    resize: vertical;
+    height: fit-content;
+    min-height: 30px;
   }
 </style>
