@@ -48,6 +48,12 @@
   let showEditModal = false
 
   const openEditNote = (note?: NoteType) => {
+    noteToEdit = {}
+
+    if (note) {
+      noteToEdit = note
+    }
+
     showEditModal = true
   }
 
@@ -107,7 +113,11 @@
     </div>
 
     {#each notes as note (note.id)}
-      <Note {...note} on:toggleFavorite="{toggleFavorite}" />
+      <Note
+        {...note}
+        on:click="{() => { openEditNote(note) }}"
+        on:toggleFavorite="{toggleFavorite}"
+      />
     {/each}
   </div>
 </main>
