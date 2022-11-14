@@ -8,6 +8,7 @@
   export let title: string | undefined = undefined
   export let date: string | undefined = undefined
   export let content: string | undefined = undefined
+  export let isFavorite: boolean | undefined = undefined
   export let tags: string[] | undefined = undefined
 
   let tagString = tags && tags.length ? tags.join(',') : ''
@@ -18,6 +19,21 @@
 
   const saveNote = () => {
     if (!canSave) return
+
+    const newMemo = {
+      id,
+      title,
+      content,
+      date: moment().format('YYYYMMDDHHmmss'),
+      isFavorite,
+      tags: tagString.replace(/\s/g, '').split(',').filter(item => item)
+    }
+
+    if (!newMemo.id) {
+      newMemo.id = moment().valueOf()
+    }
+
+    dispatch('save', newMemo)
   }
 
   let textarea: HTMLElement
@@ -39,7 +55,7 @@
 
   <div slot="body" class="modal-body">
     <label class="label" for="note-title">Title:</label>
-    <input bind:value={title} id="note-title" class="imput" type="text" />
+    <input bind:value={title} id="note-title" class="input" type="text" />
 
     <label class="label" for="note-tags">Tags:</label>
     <input bind:value={tagString} id="note-tags" class="input" type="text" />
@@ -61,6 +77,15 @@
   </div>
 
   <div slot="footer" class="modal-footer">
+    <div class="delete-wrapper">
+      {#if id}
+        <button
+          class="button delete"
+        >
+          Delete
+        </button>
+      {/if}
+    </div>
     <div class="buttons-wrapper">
       <button
         class="button save {!canSave? 'disabled' : ''}"
@@ -127,6 +152,32 @@
 
         &:active {
           background-color: #b9b7b7;
+        }
+
+        &.save {
+          background-color: #1dbd73;
+          color: #fff;
+
+          &:active {
+            background-color: #1a8e56;
+          }
+
+          &.disabled {
+            opacity: 0.5;
+
+            &:active {
+              background-color: #1dbd73;
+            }
+          }
+        }
+
+        &.delete {
+          background-color: #e81414;
+          color: #fff;
+
+          &:active {
+            background-color: #b11111;
+          }
         }
       }
     }
