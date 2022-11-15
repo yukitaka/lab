@@ -113,6 +113,17 @@
 
   const deleteNote = (event: CustomEvent) => {
     closeDeleteModal()
+    closeEditModal()
+
+    const deleteNoteIndex = event.detail as number
+    const noteIndex = notes.findIndex(item => item.id === deleteNoteIndex)
+
+    if (noteIndex !== -1) {
+      notes.splice(noteIndex, 1)
+    }
+
+    console.log(notes)
+
     saveNotesToStorage()
   }
 </script>
