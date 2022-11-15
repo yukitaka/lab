@@ -11,7 +11,7 @@
   export let isFavorite: boolean
   export let tags: string[]
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher()
 
   const trimContent = (content: string) => {
     if (content.length > 100) {
@@ -72,7 +72,7 @@
       border-radius: 20px;
       font-size: 12px;
       margin-right: 5px;
-      height: 20px;
+      height: 15px;
 
       &-wrapper {
         display: flex;

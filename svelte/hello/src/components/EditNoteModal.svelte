@@ -81,6 +81,7 @@
       {#if id}
         <button
           class="button delete"
+          on:click|stopPropagation="{() => dispatch('delete', id)}"
         >
           Delete
         </button>

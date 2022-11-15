@@ -58,6 +58,7 @@
   }
 
   const closeEditModal = () => {
+    noteToEdit = {}
     showEditModal = false
   }
 
@@ -69,7 +70,7 @@
     const noteIndex = notes.findIndex(item => item.id === deleteNoteIndex)
 
     if (noteIndex !== -1) {
-      noteToDelte = notes[noteindex]
+      noteToDelete = notes[noteIndex]
       showDeleteModal = true
     }
   }
@@ -97,10 +98,32 @@
 
   const saveNote = (event: CustomEvent) => {
     closeEditModal()
+
+    const note = event.detail as NoteType
+    const noteIndex = notes.findIndex(item => item.id === note.id)
+
+    if (noteIndex !== -1) {
+      notes[noteIndex] = note
+    } else {
+      notes.push(note)
+    }
+
+    saveNotesToStorage()
   }
 
   const deleteNote = (event: CustomEvent) => {
     closeDeleteModal()
+    closeEditModal()
+
+    const deleteNoteIndex = event.detail as number
+    const noteIndex = notes.findIndex(item => item.id === deleteNoteIndex)
+
+    if (noteIndex !== -1) {
+      notes.splice(noteIndex, 1)
+    }
+
+    console.log(notes)
+
     saveNotesToStorage()
   }
 </script>

@@ -42,7 +42,6 @@
     &-header {
       display: flex;
       height: 5vh;
-      color: #363636;
       justify-content: space-between;
       padding: 0 15px 10px;
       border-bottom: 3px solid #e2e2e2;
