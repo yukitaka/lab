@@ -1,7 +1,21 @@
-import { Title } from "solid-start";
+import { Title, useRouteData } from "solid-start";
 import Counter from "~/components/Counter";
 
+export function routeData() {
+  return createServerData$(async (_, { request }) => {
+    const user = await getUser(request);
+
+    if (!user) {
+      throw redirect("/login");
+    }
+
+    return user;
+  });
+}
+
 export default function Home() {
+  const user = useRouteData<typeof routeData>();
+
   return (
     <main>
       <Title>Hello World</Title>
