@@ -1,9 +1,11 @@
 import { useParams, useRouteData } from "solid-start";
 import { FormError } from "solid-start/data";
-import { createServerAction$ } from "solid-start/server";
+import { createServerAction$, createServerData$ } from "solid-start/server";
 
 export function routeData() {
-  return () => { return {}; };
+  return createServerData$(async (_, { request }) => {
+    return {};
+  });
 }
 
 export default function Login() {
@@ -11,6 +13,16 @@ export default function Login() {
   const params = useParams();
 
   const [loggingIn, { Form }] = createServerAction$(async (form: FormData) => {
+    const loginType = form.get("loginType");
+    const username = form.get("username");
+    const password = form.get("password");
+
+    const fields = { loginType };
+    const fieldErrors = {
+      username: `Usernames must be at least 3 characters long`,
+      password: `Passwords must be at least 6 characters long`
+    };
+
     if (Object.values(fieldErrors).some(Boolean)) {
       throw new FormError("Fields invalid", { fieldErrors, fields });
     }
