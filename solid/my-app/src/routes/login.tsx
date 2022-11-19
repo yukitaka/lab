@@ -1,8 +1,13 @@
-import { useParams } from "solid-start";
+import { useParams, useRouteData } from "solid-start";
 import { FormError } from "solid-start/data";
 import { createServerAction$ } from "solid-start/server";
 
+export function routeData() {
+  return () => { return {}; };
+}
+
 export default function Login() {
+  const data = useRouteData<typeof routeData>();
   const params = useParams();
 
   const [loggingIn, { Form }] = createServerAction$(async (form: FormData) => {
@@ -44,6 +49,7 @@ export default function Login() {
             {loggingIn.error.message}
           </p>
         </Show>
+        <button type="submit">{data() ? "Login" : ""}</button>
       </Form>
     </main>
   )
