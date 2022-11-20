@@ -1,9 +1,25 @@
 import { useParams, useRouteData } from "solid-start";
 import { FormError } from "solid-start/data";
 import { createServerAction$, createServerData$ } from "solid-start/server";
+import { getUser } from "~/db/session";
+
+function validateUsername(username: unknown) {
+  if (typeof username !== "string" || username.length < 3) {
+    return `Usernames must be at least 3 characters long`;
+  }
+}
+
+function validatePassword(password: unknown) {
+  if (typeof password !== "string" || password.length < 6) {
+    return `Passwords must be at least 6 characters long`;
+  }
+}
 
 export function routeData() {
   return createServerData$(async (_, { request }) => {
+    if (await getUser(request)) {
+      throw redirect("/");
+    }
     return {};
   });
 }
@@ -16,15 +32,27 @@ export default function Login() {
     const loginType = form.get("loginType");
     const username = form.get("username");
     const password = form.get("password");
+    if (
+      typeof loginType !== "string" ||
+      typeof username !== "string" ||
+      typeof password !== "string"
+    ) {
+      throw new FormError(`Form not submitted correctly.`);
+    }
 
-    const fields = { loginType };
+    const fields = { loginType, username, password };
     const fieldErrors = {
-      username: `Usernames must be at least 3 characters long`,
-      password: `Passwords must be at least 6 characters long`
+      username: validateUsername(username),
+      password: validatePassword(password)
     };
 
     if (Object.values(fieldErrors).some(Boolean)) {
       throw new FormError("Fields invalid", { fieldErrors, fields });
+    }
+
+    switch (loginType) {
+      case "register": {
+      }
     }
   });
 
