@@ -1,6 +1,7 @@
 import { useParams, useRouteData } from "solid-start";
 import { FormError } from "solid-start/data";
 import { createServerAction$, createServerData$ } from "solid-start/server";
+import { getUser } from "~/db/session";
 
 function validateUsername(username: unknown) {
   if (typeof username !== "string" || username.length < 3) {
@@ -16,6 +17,9 @@ function validatePassword(password: unknown) {
 
 export function routeData() {
   return createServerData$(async (_, { request }) => {
+    if (await getUser(request)) {
+      throw redirect("/");
+    }
     return {};
   });
 }
