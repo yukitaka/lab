@@ -2,6 +2,18 @@ import { useParams, useRouteData } from "solid-start";
 import { FormError } from "solid-start/data";
 import { createServerAction$, createServerData$ } from "solid-start/server";
 
+function validateUsername(username: unknown) {
+  if (typeof username !== "string" || username.length < 3) {
+    return `Usernames must be at least 3 characters long`;
+  }
+}
+
+function validatePassword(password: unknown) {
+  if (typeof password !== "string" || password.length < 6) {
+    return `Passwords must be at least 6 characters long`;
+  }
+}
+
 export function routeData() {
   return createServerData$(async (_, { request }) => {
     return {};
@@ -19,8 +31,8 @@ export default function Login() {
 
     const fields = { loginType };
     const fieldErrors = {
-      username: `Usernames must be at least 3 characters long`,
-      password: `Passwords must be at least 6 characters long`
+      username: validateUsername(username),
+      password: validatePassword(password)
     };
 
     if (Object.values(fieldErrors).some(Boolean)) {
