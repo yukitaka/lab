@@ -32,8 +32,15 @@ export default function Login() {
     const loginType = form.get("loginType");
     const username = form.get("username");
     const password = form.get("password");
+    if (
+      typeof loginType !== "string" ||
+      typeof username !== "string" ||
+      typeof password !== "string"
+    ) {
+      throw new FormError(`Form not submitted correctly.`);
+    }
 
-    const fields = { loginType };
+    const fields = { loginType, username, password };
     const fieldErrors = {
       username: validateUsername(username),
       password: validatePassword(password)
@@ -41,6 +48,11 @@ export default function Login() {
 
     if (Object.values(fieldErrors).some(Boolean)) {
       throw new FormError("Fields invalid", { fieldErrors, fields });
+    }
+
+    switch (loginType) {
+      case "register": {
+      }
     }
   });
 
