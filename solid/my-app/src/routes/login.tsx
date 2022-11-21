@@ -2,7 +2,7 @@ import { useParams, useRouteData } from "solid-start";
 import { FormError } from "solid-start/data";
 import { createServerAction$, createServerData$ } from "solid-start/server";
 import { db } from "~/db";
-import { getUser, register } from "~/db/session";
+import { createUserSession, getUser, register } from "~/db/session";
 
 function validateUsername(username: unknown) {
   if (typeof username !== "string" || username.length < 3) {
@@ -66,11 +66,11 @@ export default function Login() {
           throw new FormError(`Something went wrong trying to create a new user.`, {
             fields
           });
-          return createUserSession(`${user.id}`, redirectTo);
         }
-        default: {
-          throw new FormError(`Login type invalid`, { fields });
-        }
+        return createUserSession(`${user.id}`, redirectTo);
+      }
+      default: {
+        throw new FormError(`Login type invalid`, { fields });
       }
     }
   });

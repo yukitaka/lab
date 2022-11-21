@@ -44,3 +44,13 @@ export async function getUser(request: Request) {
 
   return null;
 }
+
+export async function createUserSession(userId: string, redirectTo: string) {
+  const session = await storage.getSession();
+  session.set("userId", userId);
+  return redirect(redirectTo, {
+    headers: {
+      "Set-Cookie": await storage.commitSession(session)
+    }
+  });
+}
