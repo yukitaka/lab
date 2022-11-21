@@ -68,6 +68,9 @@ export default function Login() {
           });
           return createUserSession(`${user.id}`, redirectTo);
         }
+        default: {
+          throw new FormError(`Login type invalid`, { fields });
+        }
       }
     }
   });
