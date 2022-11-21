@@ -1,7 +1,8 @@
 import { useParams, useRouteData } from "solid-start";
 import { FormError } from "solid-start/data";
 import { createServerAction$, createServerData$ } from "solid-start/server";
-import { getUser } from "~/db/session";
+import { db } from "~/db";
+import { getUser, register } from "~/db/session";
 
 function validateUsername(username: unknown) {
   if (typeof username !== "string" || username.length < 3) {
@@ -32,10 +33,12 @@ export default function Login() {
     const loginType = form.get("loginType");
     const username = form.get("username");
     const password = form.get("password");
+    const redirectTo = form.get("redirectTo") || "/";
     if (
       typeof loginType !== "string" ||
       typeof username !== "string" ||
-      typeof password !== "string"
+      typeof password !== "string" ||
+      typeof redirectTo !== "string"
     ) {
       throw new FormError(`Form not submitted correctly.`);
     }
@@ -52,6 +55,19 @@ export default function Login() {
 
     switch (loginType) {
       case "register": {
+        const userExists = await db.user.findUnique({ where: { username } });
+        if (userExists) {
+          throw new FormError(`User with username ${username} already exists`, {
+            fields
+          });
+        }
+        const user = await register({ username, password });
+        if (!user) {
+          throw new FormError(`Something went wrong trying to create a new user.`, {
+            fields
+          });
+          return createUserSession(`${user.id}`, redirectTo);
+        }
       }
     }
   });

@@ -1,5 +1,16 @@
 import { redirect } from "solid-start/server";
 import { createCookieSessionStorage } from "solid-start/session";
+import { db } from ".";
+type LoginForm = {
+  username: string;
+  password: string;
+};
+
+export async function register({ username, password }: LoginForm) {
+  return db.user.create({
+    data: { username: username, password }
+  });
+}
 
 const storage = createCookieSessionStorage({
   cookie: {
