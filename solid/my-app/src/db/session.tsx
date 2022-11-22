@@ -12,6 +12,12 @@ export async function register({ username, password }: LoginForm) {
   });
 }
 
+export async function login({username, password }: LoginForm) {
+  return db.user.create({
+    data: { username: username, password }
+  });
+}
+
 const storage = createCookieSessionStorage({
   cookie: {
     name: "RJ_session",
