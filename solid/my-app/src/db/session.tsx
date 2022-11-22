@@ -12,6 +12,12 @@ export async function register({ username, password }: LoginForm) {
   });
 }
 
+export async function login({username, password }: LoginForm) {
+  return db.user.create({
+    data: { username: username, password }
+  });
+}
+
 const storage = createCookieSessionStorage({
   cookie: {
     name: "RJ_session",
@@ -42,7 +48,21 @@ export async function getUser(request: Request) {
     return null;
   }
 
-  return null;
+  try {
+    const user = await db.user.findUnique({ where: { id: Number(userId) } });
+    return user;
+  } catch {
+    throw logout(request);
+  }
+}
+
+export async function logout(request: Request) {
+  const session = await storage.getSession(request.headers.get("Cookie"));
+  return redirect("/login", {
+    headers: {
+      "Set-Cookie": await storage.destroySession(session)
+    }
+  });
 }
 
 export async function createUserSession(userId: string, redirectTo: string) {

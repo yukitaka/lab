@@ -1,8 +1,8 @@
 import { useParams, useRouteData } from "solid-start";
 import { FormError } from "solid-start/data";
-import { createServerAction$, createServerData$ } from "solid-start/server";
+import { createServerAction$, createServerData$, redirect } from "solid-start/server";
 import { db } from "~/db";
-import { createUserSession, getUser, register } from "~/db/session";
+import { createUserSession, getUser, login, register } from "~/db/session";
 
 function validateUsername(username: unknown) {
   if (typeof username !== "string" || username.length < 3) {
@@ -54,6 +54,15 @@ export default function Login() {
     }
 
     switch (loginType) {
+      case "login": {
+        const user = await login({ username, password });
+        if (!user) {
+          throw new FormError(`Username/Password combination is incorrect`, {
+            fields
+          });
+        }
+        return createUserSession(`${user.id}`, redirectTo);
+      }
       case "register": {
         const userExists = await db.user.findUnique({ where: { username } });
         if (userExists) {
