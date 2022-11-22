@@ -1,6 +1,6 @@
 import { useParams, useRouteData } from "solid-start";
 import { FormError } from "solid-start/data";
-import { createServerAction$, createServerData$ } from "solid-start/server";
+import { createServerAction$, createServerData$, redirect } from "solid-start/server";
 import { db } from "~/db";
 import { createUserSession, getUser, login, register } from "~/db/session";
 

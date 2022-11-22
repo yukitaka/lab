@@ -48,7 +48,12 @@ export async function getUser(request: Request) {
     return null;
   }
 
-  return null;
+  try {
+    const user = await db.user.findUnique({ where: { id: Number(userId) } });
+    return user;
+  } catch {
+    throw logout(request);
+  }
 }
 
 export async function createUserSession(userId: string, redirectTo: string) {
