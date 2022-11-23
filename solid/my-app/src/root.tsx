@@ -23,8 +23,6 @@ export default function Root() {
         <Meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Body>
-        <A href="/">Index</A>
-        <A href="/about">About</A>
         <ErrorBoundary>
           <Suspense fallback={<div>Loading</div>}>
             <Routes>
