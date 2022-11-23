@@ -1,5 +1,4 @@
-import { Title, useRouteData } from "solid-start";
-import Counter from "~/components/Counter";
+import { useRouteData } from "solid-start";
 import { redirect } from "solid-start/server";
 import { getUser } from "~/db/session";
 
@@ -21,16 +20,6 @@ export default function Home() {
   return (
     <main class="w-full p-4 space-y-2">
       <h1 class="font-bold text-3xl">Hello {user()?.username}</h1>
-      <Title>Hello World</Title>
-      <h1>Hello world!</h1>
-      <Counter />
-      <p>
-        Visit{" "}
-        <a href="https://start.solidjs.com" target="_blank">
-          start.solidjs.com
-        </a>{" "}
-        to learn how to build SolidStart apps.
-      </p>
     </main>
   );
 }
