@@ -1,5 +1,6 @@
 package com.example
 
+import com.example.dao.DatabaseFactory
 import com.example.plugins.configureRouting
 import com.example.plugins.configureSerialization
 import io.ktor.http.*
@@ -17,6 +18,7 @@ fun Application.module() {
         allowHeader(HttpHeaders.Authorization)
         anyHost() // @TODO: Don't do this in production if possible. Try to limit it.
     }
+    DatabaseFactory.init(environment.config)
     configureRouting()
     configureSerialization()
 }
