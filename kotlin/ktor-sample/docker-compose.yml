@@ -1,17 +1,10 @@
 services:
-  web:
-    build: .
-    ports:
-      - "8080:8080"
-    depends_on:
-      db:
-        condition: service_healthy
   db:
     image: postgres
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: test
+      POSTGRES_DB: sample
       POSTGRES_HOST_AUTH_METHOD: trust
     ports:
       - "54321:5432"
