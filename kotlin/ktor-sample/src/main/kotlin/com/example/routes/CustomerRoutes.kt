@@ -32,7 +32,7 @@ fun Route.customerRouting() {
         }
         post {
             val customer = call.receive<Customer>()
-            customerStorage.add(customer)
+            dao.addNewCustomer(customer.firstName, customer.lastName, customer.email)
             call.respondText("Customer stored correctly", status = HttpStatusCode.Created)
         }
         delete("{id?}") {
