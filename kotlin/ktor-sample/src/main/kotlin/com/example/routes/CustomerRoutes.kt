@@ -7,6 +7,7 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.server.util.*
 
 fun Route.customerRouting() {
     route("/customer") {
@@ -19,25 +20,17 @@ fun Route.customerRouting() {
             }
         }
         get("{id?}") {
-            val id = call.parameters["id"] ?: return@get call.respondText(
-                "Missing id",
-                status = HttpStatusCode.BadRequest
-            )
-            val customer =
-                customerStorage.find { it.id == id.toInt() } ?: return@get call.respondText(
-                    "No customer with id $id",
-                    status = HttpStatusCode.NotFound
-                )
-            call.respond(customer)
+            val id = call.parameters.getOrFail<Int>("id")
+            call.respond(mapOf("customer" to dao.customer(id)))
         }
         post {
             val customer = call.receive<Customer>()
-            customerStorage.add(customer)
+            dao.addNewCustomer(customer.firstName, customer.lastName, customer.email)
             call.respondText("Customer stored correctly", status = HttpStatusCode.Created)
         }
         delete("{id?}") {
-            val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
-            if (customerStorage.removeIf { it.id == id.toInt() }) {
+            val id = call.parameters.getOrFail<Int>("id").toInt()
+            if (dao.deleteCustomer(id)) {
                 call.respondText("Customer removed correctly", status = HttpStatusCode.Accepted)
             } else {
                 call.respondText("Not Found", status = HttpStatusCode.NotFound)

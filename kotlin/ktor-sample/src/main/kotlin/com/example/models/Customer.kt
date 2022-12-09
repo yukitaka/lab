@@ -8,9 +8,9 @@ data class Customer(val id: Int, val firstName: String, val lastName: String, va
 
 object Customers : Table() {
     val id = integer("id").autoIncrement()
-    val firstName = varchar("First", 128)
-    val lastName = varchar("Last", 128)
-    val email = varchar("email@examle.com", 128)
+    val firstName = varchar("first_name", 128)
+    val lastName = varchar("last_name", 128)
+    val email = varchar("email", 128)
 
     override val primaryKey = PrimaryKey(id)
 }
