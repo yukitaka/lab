@@ -17,8 +17,11 @@ class DAOFacadeImpl : DAOFacade {
         Customers.selectAll().map(::resultRowToCustomer)
     }
 
-    override suspend fun customer(id: Int): Customer? {
-        TODO("Not yet implemented")
+    override suspend fun customer(id: Int): Customer? = dbQuery {
+        Customers
+            .select { Customers.id eq id }
+            .map(::resultRowToCustomer)
+            .singleOrNull()
     }
 
     override suspend fun addNewCustomer(firstName: String, lastName: String, email: String): Customer? = dbQuery {
