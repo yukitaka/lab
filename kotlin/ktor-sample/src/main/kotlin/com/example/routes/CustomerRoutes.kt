@@ -29,8 +29,8 @@ fun Route.customerRouting() {
             call.respondText("Customer stored correctly", status = HttpStatusCode.Created)
         }
         delete("{id?}") {
-            val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
-            if (customerStorage.removeIf { it.id == id.toInt() }) {
+            val id = call.parameters.getOrFail<Int>("id").toInt()
+            if (dao.deleteCustomer(id)) {
                 call.respondText("Customer removed correctly", status = HttpStatusCode.Accepted)
             } else {
                 call.respondText("Not Found", status = HttpStatusCode.NotFound)

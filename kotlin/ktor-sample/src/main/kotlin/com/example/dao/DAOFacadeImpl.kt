@@ -5,6 +5,7 @@ import com.example.models.Customer
 import com.example.models.Customers
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 class DAOFacadeImpl : DAOFacade {
     private fun resultRowToCustomer(row: ResultRow) = Customer(
@@ -33,12 +34,16 @@ class DAOFacadeImpl : DAOFacade {
         insertStatement.resultedValues?.singleOrNull()?.let(::resultRowToCustomer)
     }
 
-    override suspend fun editCustomer(id: Int, firstName: String, lastName: String, email: String): Boolean {
-        TODO("Not yet implemented")
+    override suspend fun editCustomer(id: Int, firstName: String, lastName: String, email: String): Boolean = dbQuery {
+        Customers.update({ Customers.id eq id }) {
+            it[Customers.firstName] = firstName
+            it[Customers.lastName] = lastName
+            it[Customers.email] = email
+        } > 0
     }
 
-    override suspend fun deleteCustomer(id: Int): Boolean {
-        TODO("Not yet implemented")
+    override suspend fun deleteCustomer(id: Int): Boolean = dbQuery {
+        Customers.deleteWhere { Customers.id eq id } > 0
     }
 }
 
