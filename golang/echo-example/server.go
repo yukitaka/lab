@@ -6,6 +6,12 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+type User struct {
+	Id    string `json:"id"`
+	Name  string `json:"name"`
+	Email string `json:"email"`
+}
+
 func main() {
 	e := echo.New()
 	e.GET("/", func(c echo.Context) error {
@@ -16,6 +22,10 @@ func main() {
 }
 
 func getUser(c echo.Context) error {
-	id := c.Param("id")
-	return c.String(http.StatusOK, id)
+	u := &User{
+		Id:    c.Param("id"),
+		Name:  "Example",
+		Email: "example@example.com",
+	}
+	return c.JSON(http.StatusOK, u)
 }
