@@ -1,16 +1,11 @@
 package main
 
 import (
+	"echo-example/entity"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
-
-type User struct {
-	Id    string `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
-}
 
 func main() {
 	e := echo.New()
@@ -22,9 +17,9 @@ func main() {
 }
 
 func getUser(c echo.Context) error {
-	u := &User{
+	u := &entity.User{
 		Id:    c.Param("id"),
-		Name:  "Example",
+		Name:  "Example2",
 		Email: "example@example.com",
 	}
 	return c.JSON(http.StatusOK, u)
