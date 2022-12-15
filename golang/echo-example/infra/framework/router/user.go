@@ -1,21 +1,14 @@
 package router
 
 import (
-	"echo-example/entity"
-	"net/http"
+	"echo-example/infra/framework/context"
+	"echo-example/interface/controller"
 
 	"github.com/labstack/echo/v4"
 )
 
 func userRoute(app *echo.Group) {
-	app.GET("/users/:id", getUser)
-}
-
-func getUser(c echo.Context) error {
-	u := &entity.User{
-		Id:    c.Param("id"),
-		Name:  "Example2",
-		Email: "example@example.com",
-	}
-	return c.JSON(http.StatusOK, u)
+	app.GET("/users/:id", func(ctx echo.Context) error {
+		return controller.GetUser(ctx.(*context.CustomContext))
+	})
 }
