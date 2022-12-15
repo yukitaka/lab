@@ -1,6 +1,7 @@
 package app
 
 import (
+	"echo-example/infra/framework/context"
 	"echo-example/infra/framework/router"
 
 	"github.com/labstack/echo/v4"
@@ -17,6 +18,13 @@ func New() *App {
 }
 
 func (app *App) Run() {
+	app.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			cc := context.New(c)
+			return next(cc)
+		}
+	})
+
 	router.Build(app.Echo)
 
 	app.Logger.Fatal(app.Start(":1323"))
