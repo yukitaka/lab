@@ -1,16 +1,14 @@
 package controller
 
 import (
-	"echo-example/entity"
 	"echo-example/interface/context"
+	"echo-example/usecase"
 	"net/http"
 )
 
 func GetUser(ctx context.Context) error {
-	u := &entity.User{
-		Id:    ctx.Param("id"),
-		Name:  "Example",
-		Email: "example@example.com",
-	}
+	itr := usecase.NewUserInteractor(ctx)
+	u, _ := itr.FindById(ctx.Param("id"))
+
 	return ctx.JSON(http.StatusOK, u)
 }
