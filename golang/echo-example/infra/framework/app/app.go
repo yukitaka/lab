@@ -17,7 +17,7 @@ func New() *App {
 	}
 }
 
-func (app *App) Run() {
+func (app *App) Run(port string) {
 	app.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			cc := context.New(c)
@@ -27,5 +27,5 @@ func (app *App) Run() {
 
 	router.Build(app.Echo)
 
-	app.Logger.Fatal(app.Start(":1323"))
+	app.Logger.Fatal(app.Start(":" + port))
 }
