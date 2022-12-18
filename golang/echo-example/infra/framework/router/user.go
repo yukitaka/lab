@@ -1,7 +1,7 @@
 package router
 
 import (
-	"echo-example/infra/framework/context"
+	"echo-example/infra/context"
 	"echo-example/interface/controller"
 
 	"github.com/labstack/echo/v4"
