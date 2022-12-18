@@ -1,7 +1,7 @@
 package app
 
 import (
-	"echo-example/infra/framework/context"
+	"echo-example/infra/context"
 	"echo-example/infra/framework/router"
 
 	"github.com/labstack/echo/v4"
