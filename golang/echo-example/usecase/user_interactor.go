@@ -2,21 +2,19 @@ package usecase
 
 import (
 	"echo-example/entity"
-	"echo-example/interface/context"
+	"echo-example/usecase/repository"
 )
 
-type UserInteractor struct{}
+type UserInteractor struct {
+	repository.Users
+}
 
-func NewUserInteractor(ctx context.Context) *UserInteractor {
-	return &UserInteractor{}
+func NewUserInteractor(repository repository.Users) *UserInteractor {
+	return &UserInteractor{
+		Users: repository,
+	}
 }
 
 func (itr *UserInteractor) FindById(id int) (*entity.User, error) {
-	u := &entity.User{
-		Id:    id,
-		Name:  "Example",
-		Email: "example@example.com",
-	}
-
-	return u, nil
+	return itr.Users.Find(id)
 }
