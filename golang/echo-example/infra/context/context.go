@@ -2,19 +2,24 @@ package context
 
 import (
 	"echo-example/infra/db"
+	idb "echo-example/interface/db"
 
 	"github.com/labstack/echo/v4"
 )
 
 type CustomContext struct {
-	Db db.Db
+	db db.Db
 
 	echo.Context
 }
 
 func New(ctx echo.Context) *CustomContext {
 	return &CustomContext{
-		Db:      db.New(),
+		db:      db.New(),
 		Context: ctx,
 	}
+}
+
+func (ctx *CustomContext) Db() idb.Db {
+	return ctx.db
 }

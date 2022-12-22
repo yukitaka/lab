@@ -8,7 +8,7 @@ import (
 )
 
 type Db struct {
-	Con *gorm.DB
+	con *gorm.DB
 }
 
 func New() Db {
@@ -19,8 +19,17 @@ func New() Db {
 	con, _ := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	db := Db{
-		Con: con,
+		con: con,
 	}
 
 	return db
+}
+
+func (db Db) First(o interface{}, arg ...interface{}) interface{} {
+	id, ok := arg[0].(int)
+	if ok {
+		return db.con.First(o, id)
+	}
+
+	return nil
 }
