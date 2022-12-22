@@ -1,19 +1,23 @@
 package repository
 
-import "echo-example/entity"
+import (
+	"echo-example/entity"
+	"echo-example/interface/context"
+)
 
-type UserRepository struct{}
+type UserRepository struct {
+	context context.Context
+}
 
-func NewUserRepository() *UserRepository {
-	return &UserRepository{}
+func NewUserRepository(ctx context.Context) *UserRepository {
+	return &UserRepository{
+		context: ctx,
+	}
 }
 
 func (r *UserRepository) Find(id int) (*entity.User, error) {
-	u := &entity.User{
-		Id:    id,
-		Name:  "Example",
-		Email: "example@example.com",
-	}
+	var user = entity.User{}
+	r.context.Db().First(&user, id)
 
-	return u, nil
+	return &user, nil
 }
