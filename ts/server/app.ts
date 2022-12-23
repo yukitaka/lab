@@ -1,6 +1,5 @@
 import * as http from "http";
-
-const port = 5000;
+import { port } from "./config";
 
 const server = http.createServer(
   (request, response) => {
