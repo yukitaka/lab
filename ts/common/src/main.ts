@@ -29,3 +29,34 @@ function getFormattedValue(value: number, unit: string | null = "pt") {
 
 console.log(getFormattedValue(100))
 console.log(getFormattedValue(100, 'kg'))
+
+type Answer = "mighty" | "lot" | "few" | "entirely"
+type User = {
+  age: number
+  name: string
+  enquate: { [k: string]: Answer | undefined }
+}
+function registerUser(user: User) {
+  console.log(user)
+}
+
+const maybeUser: User = {
+  age: 26,
+  name: "Taro",
+  enquate: {
+    exercise_habits: "entirely",
+    time_of_sleeping: "few",
+  }
+}
+
+registerUser(maybeUser)
+registerUser({...{
+  age: 26,
+  name: "Taro",
+  enquate: {},
+}})
+
+const exercise_habits = maybeUser.enquate["exercise_habits"]
+const undefined_key = maybeUser.enquate["undefined_property"]
+console.log(exercise_habits)
+console.log(undefined_key)
