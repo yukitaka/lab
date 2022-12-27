@@ -30,11 +30,12 @@ function getFormattedValue(value: number, unit: string | null = "pt") {
 console.log(getFormattedValue(100))
 console.log(getFormattedValue(100, 'kg'))
 
+type Question = "exercise_habits" | "time_of_sleeping"
 type Answer = "mighty" | "lot" | "few" | "entirely"
 type User = {
   age: number
   name: string
-  enquate: { [k: string]: Answer | undefined }
+  enquate: { [k in Question]?: Answer }
 }
 function registerUser(user: User) {
   console.log(user)
@@ -57,6 +58,4 @@ registerUser({...{
 }})
 
 const exercise_habits = maybeUser.enquate["exercise_habits"]
-const undefined_key = maybeUser.enquate["undefined_property"]
 console.log(exercise_habits)
-console.log(undefined_key)
