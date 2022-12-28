@@ -70,3 +70,20 @@ const obj = {
 const value1 = pick(obj, "name")
 console.log(value1)
 console.log(typeof(value1))
+
+interface Properties {
+  name: string
+  age: number
+  flag: boolean
+}
+type Filter<T, U> = {
+  [K in keyof T]: T[K] extends U ? K : never
+}[keyof T]
+type StringKeys<T> = Filter<T, string>
+
+type Strings = Pick<Properties, StringKeys<Properties>>
+
+const strings: Strings = { name: "hoge" }
+
+console.log(strings)
+
