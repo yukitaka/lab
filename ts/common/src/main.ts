@@ -59,3 +59,14 @@ registerUser({...{
 
 const exercise_habits = maybeUser.enquate["exercise_habits"]
 console.log(exercise_habits)
+
+const pick = <T, K extends keyof T>(props: T, key: K) => props[key]
+
+const obj = {
+  name: "Taro",
+  amount: 0,
+  flag: false
+}
+const value1 = pick(obj, "name")
+console.log(value1)
+console.log(typeof(value1))
