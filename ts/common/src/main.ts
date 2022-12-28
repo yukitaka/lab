@@ -87,3 +87,14 @@ const strings: Strings = { name: "hoge" }
 
 console.log(strings)
 
+async function greet() {
+  return "Hello!"
+}
+
+type ResolveArg<T> = T extends () => Promise<infer U> ? U : never
+type X = typeof greet
+type Y = ResolveArg<typeof greet>
+
+const y: Y = "string?"
+console.log(y)
+
