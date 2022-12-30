@@ -7,7 +7,6 @@ import (
 )
 
 func main() {
-	// write your code here
 	var size, seed, gen int
 	fmt.Scan(&size, &seed, &gen)
 	rand.Seed(int64(seed))
@@ -21,15 +20,19 @@ func main() {
 
 	for i := 0; i < gen; i++ {
 		sum := evolute(cells)
-		fmt.Print("\033[H\033[2J")
-		fmt.Printf("Generation #%d\n", i+1)
-		fmt.Printf("Alive: %d\n", sum)
-		show(cells)
+		showHeader(i+1, sum)
+		showCells(cells)
 		time.Sleep(500 * time.Millisecond)
 	}
 }
 
-func show(cells [][]int) {
+func showHeader(gen, alive int) {
+	fmt.Print("\033[H\033[2J")
+	fmt.Printf("Generation #%d\n", gen)
+	fmt.Printf("Alive: %d\n", alive)
+}
+
+func showCells(cells [][]int) {
 	for _, row := range cells {
 		for _, col := range row {
 			if col == 1 {
@@ -70,7 +73,7 @@ func evolute(cells [][]int) int {
 	return sum
 }
 
-func around(cells [][]int, y int, x int) int {
+func around(cells [][]int, y, x int) int {
 	size := len(cells)
 	left := pos(x, -1, size-1, size-1)
 	right := pos(x, 1, size-1, 0)
