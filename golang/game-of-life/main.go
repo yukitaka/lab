@@ -1,0 +1,97 @@
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
+
+func main() {
+	// write your code here
+	var size, seed, gen int
+	fmt.Scan(&size, &seed, &gen)
+	rand.Seed(int64(seed))
+	cells := make([][]int, size)
+	for y := 0; y < size; y++ {
+		cells[y] = make([]int, size)
+		for x := 0; x < size; x++ {
+			cells[y][x] = rand.Intn(2)
+		}
+	}
+
+	for i := 0; i < gen; i++ {
+		sum := evolute(cells)
+		fmt.Print("\033[H\033[2J")
+		fmt.Printf("Generation #%d\n", i+1)
+		fmt.Printf("Alive: %d\n", sum)
+		show(cells)
+		time.Sleep(500 * time.Millisecond)
+	}
+}
+
+func show(cells [][]int) {
+	for _, row := range cells {
+		for _, col := range row {
+			if col == 1 {
+				fmt.Print("O")
+			} else {
+				fmt.Print(" ")
+			}
+		}
+		fmt.Println()
+	}
+}
+
+func evolute(cells [][]int) int {
+	size := len(cells)
+	cnt := make([][]int, size)
+	sum := 0
+	for y, row := range cells {
+		cnt[y] = make([]int, size)
+		for x := range row {
+			cnt[y][x] = around(cells, y, x)
+		}
+	}
+	for y, row := range cells {
+		for x, col := range row {
+			if col == 1 {
+				if cnt[y][x] < 2 || cnt[y][x] > 3 {
+					cells[y][x] = 0
+				} else {
+					sum++
+				}
+			} else if cnt[y][x] == 3 {
+				cells[y][x] = 1
+				sum++
+			}
+		}
+	}
+
+	return sum
+}
+
+func around(cells [][]int, y int, x int) int {
+	size := len(cells)
+	left := x - 1
+	right := x + 1
+	up := y - 1
+	down := y + 1
+	if left < 0 {
+		left = size - 1
+	}
+	if right >= size {
+		right = 0
+	}
+	if up < 0 {
+		up = size - 1
+	}
+	if down >= size {
+		down = 0
+	}
+
+	around := cells[up][left] + cells[up][x] + cells[up][right]
+	around += cells[y][left] + cells[y][right]
+	around += cells[down][left] + cells[down][x] + cells[down][right]
+
+	return around
+}
