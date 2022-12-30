@@ -72,26 +72,23 @@ func evolute(cells [][]int) int {
 
 func around(cells [][]int, y int, x int) int {
 	size := len(cells)
-	left := x - 1
-	right := x + 1
-	up := y - 1
-	down := y + 1
-	if left < 0 {
-		left = size - 1
-	}
-	if right >= size {
-		right = 0
-	}
-	if up < 0 {
-		up = size - 1
-	}
-	if down >= size {
-		down = 0
-	}
+	left := pos(x, -1, size-1, size-1)
+	right := pos(x, 1, size-1, 0)
+	up := pos(y, -1, size-1, size-1)
+	down := pos(y, 1, size-1, 0)
 
 	around := cells[up][left] + cells[up][x] + cells[up][right]
 	around += cells[y][left] + cells[y][right]
 	around += cells[down][left] + cells[down][x] + cells[down][right]
 
 	return around
+}
+
+func pos(current, direction, size, fallback int) int {
+	idx := current + direction
+	if idx < 0 || idx > size {
+		return fallback
+	}
+
+	return idx
 }
