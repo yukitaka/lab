@@ -1,9 +1,6 @@
-import * as http from "http";
-import { port } from "./config";
 import { KafkaClient, HighLevelProducer } from "kafka-node";
 
-const server = http.createServer(
-  (request, response) => {
+export function index() {
     const client = new  KafkaClient({kafkaHost: "127.0.0.1:9093"});
     const producer = new HighLevelProducer(client);
     const payloads = [
@@ -15,15 +12,4 @@ const server = http.createServer(
         console.log(data);
       });
     });
-    producer.on('error', function(err: any) {
-      console.log("====");
-      console.log(err)
-    });
-    response.end("Hello! world");
-  }
-);
-
-
-server.listen(port);
-
-console.log(`http://localhost:${port}`);
+}
