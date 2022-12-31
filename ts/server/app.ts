@@ -15,10 +15,6 @@ const server = http.createServer(
         console.log(data);
       });
     });
-    producer.on('error', function(err: any) {
-      console.log("====");
-      console.log(err)
-    });
     response.end("Hello! world");
   }
 );
