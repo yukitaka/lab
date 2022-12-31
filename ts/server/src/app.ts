@@ -12,7 +12,9 @@ const server = http.createServer(
   (request, response) => {
     const pathname = url.parse(request.url!).pathname!;
     route(handler, pathname);
-    response.end("Hello! world");
+
+    response.writeHead(200, {"Content-Type":"application/json; charset=utf-8"});
+    response.end(JSON.stringify({"msg": "Hello! world"}));
   }
 );
 
