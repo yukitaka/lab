@@ -1,24 +1,12 @@
-import * as http from "http";
-import * as url from "url";
+import express from "express";
 import { port } from "./config";
-import { route } from "./router";
 import * as handlers from "./handlers"
 
-const handler = {
-  "/": handlers.index
-}
+const app = express()
+const host = "localhost"
 
-const server = http.createServer(
-  (request, response) => {
-    const pathname = url.parse(request.url!).pathname!;
-    route(handler, pathname);
+app.get("/", (req, res) => handlers.index(req, res))
 
-    response.writeHead(200, {"Content-Type":"application/json; charset=utf-8"});
-    response.end(JSON.stringify({"msg": "Hello! world"}));
-  }
-);
-
-
-server.listen(port);
-
-console.log(`http://localhost:${port}`);
+app.listen(port, host, () => {
+  console.log(`Running on http://${host}:${port}`)
+})

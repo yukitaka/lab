@@ -1,6 +1,7 @@
+import express from "express"
 import { KafkaClient, HighLevelProducer } from "kafka-node";
 
-export function index() {
+export function index(req: express.Request, res: express.Response) {
     const client = new  KafkaClient({kafkaHost: "127.0.0.1:9093"});
     const producer = new HighLevelProducer(client);
     const payloads = [
@@ -12,4 +13,6 @@ export function index() {
         console.log(data);
       });
     });
+
+    res.send(JSON.stringify(payloads))
 }

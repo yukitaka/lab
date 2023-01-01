@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
     "module": "CommonJS",
-    "strict": true
+    "moduleResolution": "node",
+    "noUnusedParameters": false,
+    "strict": true,
+    "esModuleInterop": true
   }
 }
