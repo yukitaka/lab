@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@types/kafka-node": "^3.0.0",
-    "@types/node": "^18.11.17"
+    "@types/node": "^18.11.17",
+    "vitest": "^0.26.3"
   }
 }
