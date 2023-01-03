@@ -21,4 +21,11 @@ export function types() {
     address: "address"
   } // all property is need.
   console.log(intersection)
+
+  type Union = User | Address
+  const union: Union = {
+    name: "test",
+    age: 1
+  }
+  console.log(union)
 }
