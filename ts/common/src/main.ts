@@ -1,6 +1,7 @@
 import { Dog } from "./dog"
 import { Human } from "./human"
 import { Taro } from "./taro"
+import { types } from "./types"
 
 const dog = new Dog("Bow-wow!")
 dog.shakeTail()
@@ -98,3 +99,4 @@ type Y = ResolveArg<typeof greet>
 const y: Y = "string?"
 console.log(y)
 
+types()
