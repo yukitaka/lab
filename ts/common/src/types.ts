@@ -10,6 +10,10 @@ export function types() {
   }
 
   type Intersection = User & Address
+  type strnum = string & never
+
+  const never_check: strnum = "never" as never
+  console.log(never_check)
 
   const intersection: Intersection = {
     name: "test",
