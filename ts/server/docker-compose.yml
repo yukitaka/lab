@@ -31,8 +31,19 @@ services:
       - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
       - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://localhost:9093
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
-    depends_on:
+    links:
       - zookeeper
+  schema-registry:
+    image: docker.io/bitnami/schema-registry:latest
+    networks:
+      - app-tier
+    ports:
+      - 8081:8081
+    environment:
+      - SCHEMA_REGISTRY_LISTENERS=http://0.0.0.0:8081
+      - SCHEMA_REGISTRY_KAFKA_BROKERS=PLAINTEXT://kafka:9092
+    links:
+      - kafka
 
 volumes:
   zookeeper_data:
