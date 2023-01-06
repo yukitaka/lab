@@ -1,5 +1,5 @@
 import express from "express"
-import { KafkaClient, HighLevelProducer } from "kafka-node"
+import KafkaAvro from "kafka-node-avro"
 import { hello } from "./usecases/hello"
 import { sendMsg } from "./usecases/send_msg"
 
@@ -8,9 +8,15 @@ export function index(req: express.Request, res: express.Response) {
 }
 
 export function send(req: express.Request, res: express.Response) {
-  console.log(req.body)
-  const client = new  KafkaClient({kafkaHost: "127.0.0.1:9093"})
-  const producer = new HighLevelProducer(client)
+  const settings = {
+    "kafka": {
+      "kafkaHost": "127.0.0.1:9093"
+    },
+    "schema": {
+      "registry": "http://127.0.0.1:8081"
+    }
+  }
+  const avro = KafkaAvro.init(settings)
 
-  res.json(sendMsg(producer, req.body.msg))
+  res.json(sendMsg(avro, req.body.msg))
 }

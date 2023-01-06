@@ -1,15 +1,15 @@
-import {Producer} from "kafka-node";
+import {Kafka} from "kafka-node-avro";
 
-export function sendMsg(producer: Producer, msg: string): { topic: string; messages: any }[] {
-  const payloads = [
-    { topic: 'test-topic', messages: msg }
-  ];
-  producer.on("ready", () => {
-    producer.send(payloads, function (err: any, data: any) {
-      console.log(err)
-      console.log(data)
+export function sendMsg(avro: Promise<Kafka>, msg: string): { topic: string; messages: { msg: string }; key: string } {
+  const payload = { topic: 'test-topic', key: "test", messages: { msg: msg } }
+
+  avro.then(kafka => {
+    kafka.send(payload).then(success => {
+      console.log(success)
+    }, error => {
+      console.log(error)
     })
   })
 
-  return payloads
+  return payload
 }
