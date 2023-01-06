@@ -34,3 +34,11 @@ docker run -it --rm --network server_app-tier \
     -e KAFKA_CFG_ZOOKEEPER_CONNECT=server-zookeeper-1:2181 \
     bitnami/kafka:latest kafka-console-consumer.sh --topic test-topic --from-beginning --bootstrap-server=server-kafka-1:9092
 ```
+
+## Schema Registry
+Using httpie
+```
+http POST http://localhost:8081/subjects/test-topic-value/versions \
+Content-Type:application/vnd.schemaregistry.v1+json \
+schema:='"{\"type\": \"record\", \"name\": \"test\", \"fields\": [{\"name\":\"message\", \"type\": \"string\"}]}"'
+```
