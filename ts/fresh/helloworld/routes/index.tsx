@@ -1,24 +1,30 @@
-import { Head } from "$fresh/runtime.ts";
-import Counter from "../islands/Counter.tsx";
+import { Handlers, PageProps } from "$fresh/server.ts";
+import { getContent, getContents, Content } from "@/utils/contents.ts";
 
-export default function Home() {
+export const handler: Handlers<Content[]> = {
+  async GET(_req, ctx) {
+    const contents = await getContents();
+    return ctx.render(contents);
+  },
+};
+
+export default function ContentIndexPage(props: PageProps<Content[]>) {
+  const contents = props.data;
   return (
-    <>
-      <Head>
-        <title>Fresh App</title>
-      </Head>
-      <div class="p-4 mx-auto max-w-screen-md">
-        <img
-          src="/logo.svg"
-          class="w-32 h-32"
-          alt="the fresh logo: a sliced lemon dripping with juice"
-        />
-        <p class="my-6">
-          Welcome to `fresh`. Try updating this message in the ./routes/index.tsx
-          file, and refresh.
-        </p>
-        <Counter start={3} />
+    <main class="max-w-screen-md px-4 pt-16 mx-auto">
+      <h1 class="text-5x1 font-bold">Content</h1>
+      <div class="mt-8">
+        {contents.map((content) => <ContentCard content={content} />)}
       </div>
-    </>
+    </main>
+  );
+}
+
+function ContentCard(props: { content: Content }) {
+  const { content } = props;
+  return (
+    <div class="py-8 border(t gray-200)">
+      {content.title}
+    </div>
   );
 }
