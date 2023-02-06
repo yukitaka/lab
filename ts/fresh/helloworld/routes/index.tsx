@@ -24,7 +24,18 @@ function ContentCard(props: { content: Content }) {
   const { content } = props;
   return (
     <div class="py-8 border(t gray-200)">
-      {content.title}
+      <a class="sm:col-span-2" href={`/${content.slug}`}>
+        <h3 class="text(3xl gray-900) font-bold">
+          {content.title}
+        </h3>
+        <time class="text-gray-500">
+          {new Date(content.publishedAt).toLocaleDateString("en-us", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </time>
+      </a>
     </div>
   );
 }
