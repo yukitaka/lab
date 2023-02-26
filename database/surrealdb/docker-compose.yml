@@ -1,0 +1,11 @@
+version: "3"
+services:
+  db:
+    image: surrealdb/surrealdb:latest
+    command: start --user root --pass root file://db
+    ports:
+      - "8000:8000"
+    volumes:
+      - type: bind
+        source: ./db
+        target: /db
