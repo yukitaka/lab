@@ -30,7 +30,16 @@ def confirm_labels(train_labels):
     print(train_labels[0:10])
 
 
-count_shapes(train_data, train_labels, test_data)
-view_tables(train_data)
-confirm_labels(train_labels)
+#count_shapes(train_data, train_labels, test_data)
+#confirm_labels(train_labels)
 
+order = np.argsort(np.random.random(train_labels.shape))
+train_data = train_data[order]
+train_labels = train_labels[order]
+
+mean = train_data.mean(axis=0)
+std = train_data.std(axis=0)
+train_data = (train_data - mean) / std
+test_data = (test_data - mean) / std
+
+view_tables(train_data)
