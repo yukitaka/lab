@@ -1,11 +1,13 @@
+import numpy as np
 from tensorflow.keras.datasets import boston_housing
 from tensorflow.keras.layers import Activation, Dense, Dropout
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.optimizers import Adam
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plot
+import threading
+import keras
 
 (train_data, train_labels), (test_data, test_labels) = boston_housing.load_data()
 
@@ -30,7 +32,26 @@ def confirm_labels(train_labels):
     print(train_labels[0:10])
 
 
-count_shapes(train_data, train_labels, test_data)
+#count_shapes(train_data, train_labels, test_data)
+#confirm_labels(train_labels)
+
+order = np.argsort(np.random.random(train_labels.shape))
+train_data = train_data[order]
+train_labels = train_labels[order]
+
+mean = train_data.mean(axis=0)
+std = train_data.std(axis=0)
+train_data = (train_data - mean) / std
+test_data = (test_data - mean) / std
+
 view_tables(train_data)
-confirm_labels(train_labels)
+
+model = keras.Sequential(
+    [
+        Dense(64, activation='relu', input_shape=(13,)),
+        Dense(64, activation='relu'),
+        Dense(1),
+    ]
+)
+model.compile(loss='mse', optimizer=Adam(learning_rate=0.001), metrics=['mae'])
 
