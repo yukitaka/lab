@@ -5,7 +5,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.optimizers import Adam
 import pandas as pd
-import matplotlib.pyplot as plot
+import matplotlib.pyplot as plt
 import threading
 import keras
 
@@ -54,4 +54,23 @@ model = keras.Sequential(
     ]
 )
 model.compile(loss='mse', optimizer=Adam(learning_rate=0.001), metrics=['mae'])
+
+early_stop = EarlyStopping(monitor='val_loss', patience=20)
+history = model.fit(train_data, train_labels, epochs=500, validation_split=0.2, callbacks=[early_stop])
+
+plt.plot(history.history['mae'], label='train mae')
+plt.plot(history.history['val_mae'], label='val mae')
+plt.xlabel('epoch')
+plt.ylabel('mae [1000$]')
+plt.legend(loc='best')
+plt.ylim([0,5])
+plt.show()
+
+test_loss, test_mae = model.evaluate(test_data, test_labels)
+print('loss:{:.3f}\nmae: {:.3f}'.format(test_loss, test_mae))
+
+print(np.round(test_labels[0:10]))
+
+test_predictions = model.predict(test_data[0:10]).flatten()
+print(np.round(test_predictions))
 
