@@ -65,3 +65,12 @@ plt.ylabel('mae [1000$]')
 plt.legend(loc='best')
 plt.ylim([0,5])
 plt.show()
+
+test_loss, test_mae = model.evaluate(test_data, test_labels)
+print('loss:{:.3f}\nmae: {:.3f}'.format(test_loss, test_mae))
+
+print(np.round(test_labels[0:10]))
+
+test_predictions = model.predict(test_data[0:10]).flatten()
+print(np.round(test_predictions))
+
