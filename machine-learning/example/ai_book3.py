@@ -23,3 +23,12 @@ def data_preview(train_images, train_labels, test_images, test_labels):
 
 
 data_preview(train_images, train_labels, test_images, test_labels)
+
+# prepared to normalize to 0.0-1.0 from 0-255
+train_images = train_images.astype('float32')/255.0
+test_images = test_images.astype('float32')/255.0
+
+# prepared to transform one-hot
+train_labels = to_categorical(train_labels, 10)
+test_labels = to_categorical(test_labels, 10)
+
