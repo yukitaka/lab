@@ -61,3 +61,13 @@ plt.show()
 
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 print('loss: {:.3f}\nacc: {:.3f}'.format(test_loss, test_acc))
+
+for i in range(10):
+    plt.subplot(2, 5, i+1)
+    plt.imshow(test_images[i])
+plt.show()
+
+test_predictions = model.predict(test_images[0:10])
+test_predictions = np.argmax(test_predictions, axis=1)
+labels = ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
+print([labels[n] for n in test_predictions])
