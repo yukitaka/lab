@@ -49,3 +49,25 @@ model.add(Dropout(0.5))
 model.add(Dense(10, activation='softmax'))
 
 model.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=0.001), metrics=['acc'])
+
+history = model.fit(train_images, train_labels, batch_size=128, epochs=20, validation_split=0.1)
+
+plt.plot(history.history['acc'], label='acc')
+plt.plot(history.history['val_acc'], label='val_acc')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(loc='best')
+plt.show()
+
+test_loss, test_acc = model.evaluate(test_images, test_labels)
+print('loss: {:.3f}\nacc: {:.3f}'.format(test_loss, test_acc))
+
+for i in range(10):
+    plt.subplot(2, 5, i+1)
+    plt.imshow(test_images[i])
+plt.show()
+
+test_predictions = model.predict(test_images[0:10])
+test_predictions = np.argmax(test_predictions, axis=1)
+labels = ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
+print([labels[n] for n in test_predictions])
