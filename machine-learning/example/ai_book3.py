@@ -58,3 +58,6 @@ plt.ylabel('accuracy')
 plt.xlabel('epoch')
 plt.legend(loc='best')
 plt.show()
+
+test_loss, test_acc = model.evaluate(test_images, test_labels)
+print('loss: {:.3f}\nacc: {:.3f}'.format(test_loss, test_acc))
