@@ -49,3 +49,12 @@ model.add(Dropout(0.5))
 model.add(Dense(10, activation='softmax'))
 
 model.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=0.001), metrics=['acc'])
+
+history = model.fit(train_images, train_labels, batch_size=128, epochs=20, validation_split=0.1)
+
+plt.plot(history.history['acc'], label='acc')
+plt.plot(history.history['val_acc'], label='val_acc')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(loc='best')
+plt.show()
