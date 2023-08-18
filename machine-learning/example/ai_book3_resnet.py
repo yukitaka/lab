@@ -20,3 +20,6 @@ x = Dense(128, activation='sigmoid')(x)
 x = Dropout(rate=0.5)(x)
 x = Dense(10, activation='softmax')(x)
 model = Model(inputs=input, outputs=x)
+
+def conv(filters, kernel_size, strides=1):
+    return Conv2D(filters, kernel_size, strides=strides, padding='same', use_bias=False, kernel_initializer='he_normal', kernel_regularizer=l2(0.0001))
