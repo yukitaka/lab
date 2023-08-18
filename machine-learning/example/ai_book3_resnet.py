@@ -92,3 +92,24 @@ output = Dense(20, activation='softmax', kernel_regularizer=l2(0.0001))(x)
 
 model = Model(inputs=input, outputs=output)
 model.compile(loss='categorical_crossentropy', optimizer=SGD(momentum=0.9), metrics=['acc'])
+
+train_gen = ImageDataGenerator(
+        featurewise_center=True,
+        featurewise_std_normalization=True,
+        width_shift_range=0.125,
+        height_shift_range=0.125,
+        horizontal_flip=True)
+test_gen = ImageDataGenerator(
+        featurewise_center=True,
+        featurewise_std_normalization=True)
+
+for data in (train_gen, test_gen):
+    data.fit(train_images)
+
+
+def step_decay(epoch):
+    x = 0.1
+    if epoch >= 80: x = 0.01
+    if epoch >= 120: x = 0.001
+    return x
+lr_decay = LearningRateScheduler(step_decay)
