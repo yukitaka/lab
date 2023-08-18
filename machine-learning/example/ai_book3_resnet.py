@@ -14,13 +14,6 @@ import matplotlib.pyplot as plt
 train_labels = to_categorical(train_labels)
 test_labels = to_categorical(test_labels)
 
-input = Input(shape=(784,))
-x = Dense(256, activation='sigmoid')(input)
-x = Dense(128, activation='sigmoid')(x)
-x = Dropout(rate=0.5)(x)
-x = Dense(10, activation='softmax')(x)
-model = Model(inputs=input, outputs=x)
-
 def conv(filters, kernel_size, strides=1):
     return Conv2D(filters, kernel_size, strides=strides, padding='same', use_bias=False, kernel_initializer='he_normal', kernel_regularizer=l2(0.0001))
 
@@ -73,3 +66,29 @@ def residual_unit(filters):
         return Add()([x, sc])
     return f
 
+
+def residual_block(filters, strides, unit_size):
+    def f(x):
+        x = first_residual_unit(filters, strides)(x)
+        for i in range(unit_size-1):
+            x = residual_unit(filters)(x)
+        return x
+    return f
+
+
+input = Input(shape=(32, 32, 3))
+x = conv(16, 3)(input)
+
+x = residual_block(64, 1, 18)(x)
+x = residual_block(128, 2, 18)(x)
+x = residual_block(256, 2, 18)(x)
+
+x = BatchNormalization()(x)
+x = Activation('relu')(x)
+
+x = GlobalAveragePooling2D()(x)
+
+output = Dense(20, activation='softmax', kernel_regularizer=l2(0.0001))(x)
+
+model = Model(inputs=input, outputs=output)
+model.compile(loss='categorical_crossentropy', optimizer=SGD(momentum=0.9), metrics=['acc'])
