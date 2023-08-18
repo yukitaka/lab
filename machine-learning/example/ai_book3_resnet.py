@@ -23,3 +23,27 @@ model = Model(inputs=input, outputs=x)
 
 def conv(filters, kernel_size, strides=1):
     return Conv2D(filters, kernel_size, strides=strides, padding='same', use_bias=False, kernel_initializer='he_normal', kernel_regularizer=l2(0.0001))
+
+def first_residual_unit(filters, strides):
+    def f(x):
+        # ->BN->ReLU
+        x = BatchNormalization()(x)
+        b = Activation('relu')(x)
+
+        # Convolutional layer->BN->ReLU
+        x = conv(filters // 4, 1, strides)(b)
+        x = BatchNormalization()(x)
+        x = Activation('relu')(x)
+
+        # Convolutional layer->BN->ReLU
+        x = conv(filters // 4, 3)(x)
+        x = BatchNormalization()(x)
+        x = Activation('relu')(x)
+
+        # Convolutional layer->
+        x = conv(filters, 1)(x)
+
+        sc = conv(filters, 1, strides)(b)
+
+        return Add()([x, sc])
+    return f
