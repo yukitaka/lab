@@ -1,6 +1,6 @@
 from tensorflow.keras.datasets import cifar10
 from tensorflow.keras.callbacks import LearningRateScheduler
-from tensorflow.keras.layers import Activation, Add, BatchNormalization, Conv2D, Dense, GlobalAveragePooling2D, Input
+from tensorflow.keras.layers import Activation, Add, BatchNormalization, Conv2D, Dense, GlobalAveragePooling2D, Input, Dropout
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import SGD
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
@@ -14,7 +14,9 @@ import matplotlib.pyplot as plt
 train_labels = to_categorical(train_labels)
 test_labels = to_categorical(test_labels)
 
-print(train_images.shape)
-print(train_labels.shape)
-print(test_images.shape)
-print(test_labels.shape)
+input = Input(shape=(784,))
+x = Dense(256, activation='sigmoid')(input)
+x = Dense(128, activation='sigmoid')(x)
+x = Dropout(rate=0.5)(x)
+x = Dense(10, activation='softmax')(x)
+model = Model(inputs=input, outputs=x)
