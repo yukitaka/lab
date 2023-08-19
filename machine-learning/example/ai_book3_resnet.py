@@ -88,7 +88,7 @@ x = Activation('relu')(x)
 
 x = GlobalAveragePooling2D()(x)
 
-output = Dense(20, activation='softmax', kernel_regularizer=l2(0.0001))(x)
+output = Dense(10, activation='softmax', kernel_regularizer=l2(0.0001))(x)
 
 model = Model(inputs=input, outputs=output)
 model.compile(loss='categorical_crossentropy', optimizer=SGD(momentum=0.9), metrics=['acc'])
@@ -112,4 +112,24 @@ def step_decay(epoch):
     if epoch >= 80: x = 0.01
     if epoch >= 120: x = 0.001
     return x
+
+
 lr_decay = LearningRateScheduler(step_decay)
+
+batch_size = 128
+history = model.fit(
+        train_gen.flow(train_images, train_labels, batch_size=batch_size),
+        epochs=200,
+        steps_per_epoch=train_images.shape[0] // batch_size,
+        validation_data=test_gen.flow(test_images, test_labels, batch_size=batch_size),
+        validation_steps=test_images.shape[0] // batch_size,
+        callbacks=[lr_decay])
+
+model.save('resnet.keras')
+
+plt.plot(history.history['acc'], label='acc')
+plt.plot(history.history['val_acc'], label='val_acc')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(loc='best')
+plt.show()
