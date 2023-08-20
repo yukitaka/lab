@@ -24,3 +24,32 @@ class EpsilonGreedy():
     def label(self):
         return 'ε-greedy('+str(self.epsilon)+')'
 
+
+class UCB1():
+    def initialize(self, n_arms):
+        self.n = np.zeros(n_arms)
+        self.w = np.zeros(n_arms)
+        self.v = np.zeros(n_arms)
+
+    def select_arm(self):
+        for i in range(len(self.n)):
+            if self.n[i] == 0:
+                return i
+
+        return np.argmax(self.v)
+
+    def update(self, chosen_arm, reward, t):
+        self.n[chosen_arm] += 1
+        if reward == 1.0:
+            self.w[chosen_arm] += 1
+
+        for i in range(len(self.n)):
+            if self.n[i] == 0:
+                return
+
+        for i in range(len(self.v)):
+            self.v[i] = self.w[i] / self.n[i] + (2 * math.log(t) / self.n[i]) ** 0.5
+
+    def label(self):
+        return 'ucb1'
+
