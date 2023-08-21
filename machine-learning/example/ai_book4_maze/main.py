@@ -24,4 +24,25 @@ plt.tick_params(axis='both', which='both', bottom='off', top='off',
         labelbottom='off', right='off', left='off', labelleft='off')
 plt.box('off')
 
-plt.show()
+theta_0 = np.array([
+    [np.nan, 1, 1, np.nan],
+    [np.nan, 1, 1, 1],
+    [np.nan, np.nan, np.nan, 1],
+    [1, np.nan, 1, np.nan],
+    [1, 1, np.nan, np.nan],
+    [np.nan, np.nan, 1, 1],
+    [1, 1, np.nan, np.nan],
+    [np.nan, np.nan, np.nan, 1]])
+
+def get_pi(theta):
+    [m, n] = theta.shape
+    pi = np.zeros((m, n))
+    exp_theta = np.exp(theta)
+    for i in range(0, m):
+        pi[i, :] = exp_theta[i, :] / np.nansum(exp_theta[i, :])
+    pi = np.nan_to_num(pi)
+
+    return pi
+
+pi_0 = get_pi(theta_0)
+print(pi_0)
