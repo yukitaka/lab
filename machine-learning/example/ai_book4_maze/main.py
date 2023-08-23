@@ -97,6 +97,7 @@ def update_theta(theta, pi, s_a_history):
 stop_epsilon = 10**-4
 theta = theta_0
 pi = get_pi(theta_0)
+s_a_history = play(pi)
 
 for episode in range(10000):
     s_a_history = play(pi)
@@ -110,4 +111,14 @@ for episode in range(10000):
 
     if pi_delta < stop_epsilon:
         break
+
+
+def animate(i):
+    state = s_a_history[i][0]
+    circle.set_data((state % 3) + 0.5, 2.5 - int(state / 3))
+    return circle
+
+anim = animation.FuncAnimation(fig, animate, \
+        frames=len(s_a_history), interval=200, repeat=False)
+HTML(anim.to_jshtml())
 
