@@ -74,7 +74,40 @@ def play(pi):
 
     return s_a_history
 
-pi_0 = get_pi(theta_0)
-s_a_history = play(pi_0)
-print(s_a_history)
-print('step: {}'.format(len(s_a_history)+1))
+def update_theta(theta, pi, s_a_history):
+    eta = 0.1
+    total = len(s_a_history) - 1
+    [s_count, a_count] = theta.shape
+
+    delta_theta = theta.copy()
+    for i in range(0, s_count):
+        for j in range(0, a_count):
+            if not(np.isnan(theta[i, j])):
+                sa_ij = [sa for sa in s_a_history if sa == [i, j]]
+                n_ij = len(sa_ij)
+
+                sa_i = [sa for sa in s_a_history if sa[0] == i]
+                n_i = len(sa_i)
+
+                delta_theta[i, j] = (n_ij - pi[i, j] * n_i) / total
+
+    return theta + eta * delta_theta
+
+
+stop_epsilon = 10**-4
+theta = theta_0
+pi = get_pi(theta_0)
+
+for episode in range(10000):
+    s_a_history = play(pi)
+    theta = update_theta(theta, pi, s_a_history)
+    pi_new = get_pi(theta)
+    pi_delta = np.sum(np.abs(pi_new-pi))
+    pi = pi_new
+
+    print('episode: {}, step: {}, policy change: {:.4f}'.format(
+        episode, len(s_a_history)-1, pi_delta))
+
+    if pi_delta < stop_epsilon:
+        break
+
