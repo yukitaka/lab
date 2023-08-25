@@ -16,3 +16,7 @@ def get_pi(theta):
 
 pi_0 = get_pi(theta_0)
 print(pi_0)
+
+[a, b] = theta_0.shape
+Q = np.random.rand(a, b) * theta_0
+print(Q)

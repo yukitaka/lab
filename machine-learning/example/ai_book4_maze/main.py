@@ -19,23 +19,13 @@ def get_pi(theta):
 def get_a(pi, s):
     return np.random.choice([0, 1, 2, 3], p=pi[s])
 
-def get_s_next(s, a):
-    if a == 0:
-        return s - 3
-    elif a == 1:
-        return s + 1
-    elif a == 2:
-        return s + 3
-    elif a == 3:
-        return s - 1
-
 def play(pi):
     s = 0
     s_a_history = [[0, np.nan]]
 
     while True:
         a = get_a(pi, s)
-        s_next = get_s_next(s, a)
+        s_next = mz.get_s_next(s, a)
         s_a_history[-1][1] = a
         s_a_history.append([s_next, np.nan])
 
