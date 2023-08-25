@@ -27,3 +27,13 @@ def get_a(s, Q, epsilon, pi_0):
     else:
         return np.nanargmax(Q[s])
 
+def sarsa(s, a, r, s_next, a_next, Q):
+    eta = 0.1
+    gamma = 0.9
+
+    if s_next == 8:
+        Q[s, a] = Q[s, a] + eta * (r - Q[s, a])
+    else:
+        Q[s, a] = Q[s, a] + eta * (r + gamma * Q[s_next, a_next] - Q[s, a])
+    return Q
+
