@@ -20,3 +20,10 @@ print(pi_0)
 [a, b] = theta_0.shape
 Q = np.random.rand(a, b) * theta_0
 print(Q)
+
+def get_a(s, Q, epsilon, pi_0):
+    if np.random.rand() < epsilon:
+        return np.random.choice([0, 1, 2, 3], p=pi_0[s])
+    else:
+        return np.nanargmax(Q[s])
+
