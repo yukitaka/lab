@@ -33,4 +33,18 @@ class State:
     def is_done(self):
         return self.is_lose() or self.is_draw()
 
+    def next(self, action):
+        pieces = self.pieces.copy()
+        pieces[action] = 1
+        return State(self.enemy_pieces, pieces)
+
+    def legal_actions(self):
+        action = []
+        for i in range(9):
+            if self.pieces[i] == 0 and self.enemy_pieces[i] == 0:
+                actions.append(i)
+        return actions
+
+    def is_first_player(self):
+        return self.piece_count(self.pieces) == self.piece_count(self.enemy_pieces)
 
