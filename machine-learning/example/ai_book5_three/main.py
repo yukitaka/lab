@@ -20,4 +20,11 @@ class State:
                 x, y = x+dx, y+dy
             return True
 
+        if is_comp(0, 0, 1, 1) or is_com(0, 2, 1, -1):
+            return True
+        for i in range(3):
+            if is_comp(0, i, 1, 0) or is_comp(i, 0, 0, 1):
+                return True
+        return False
+    
 
