@@ -27,4 +27,10 @@ class State:
                 return True
         return False
     
+    def is_draw(self):
+        return self.piece_count(self.pieces) + self.piece_count(self.enemy_pieces) == 9
+
+    def is_done(self):
+        return self.is_lose() or self.is_draw()
+
 
