@@ -48,3 +48,16 @@ class State:
     def is_first_player(self):
         return self.piece_count(self.pieces) == self.piece_count(self.enemy_pieces)
 
+    def __str__(self):
+        ox = ('o', 'x') if self.is_first_player() else ('x', 'o')
+        str = ''
+        for i in range(9):
+            if self.pieces[i] == 1:
+                str += ox[0]
+            elif self.enemy_pieces[i] == 1:
+                str += ox[1]
+            else:
+                str += '-'
+            if i % 3 == 2:
+                str += '\n'
+        return str
