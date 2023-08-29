@@ -13,14 +13,14 @@ class State:
             return count
 
     def is_lose(self):
-        def if_comp(x, y, dx, dy):
+        def is_comp(x, y, dx, dy):
             for k in range(3):
                 if y < 0 or 2 < y or x < 0 or 2 < x or self.enemy_pieces[x+y*3] == 0:
                     return False
                 x, y = x+dx, y+dy
             return True
 
-        if is_comp(0, 0, 1, 1) or is_com(0, 2, 1, -1):
+        if is_comp(0, 0, 1, 1) or is_comp(0, 2, 1, -1):
             return True
         for i in range(3):
             if is_comp(0, i, 1, 0) or is_comp(i, 0, 0, 1):
@@ -34,12 +34,12 @@ class State:
         return self.is_lose() or self.is_draw()
 
     def next(self, action):
-        pieces = self.pieces.copy()
+        pieces = self.pieces[:]
         pieces[action] = 1
         return State(self.enemy_pieces, pieces)
 
     def legal_actions(self):
-        action = []
+        actions = []
         for i in range(9):
             if self.pieces[i] == 0 and self.enemy_pieces[i] == 0:
                 actions.append(i)
@@ -67,3 +67,14 @@ def random_action(state):
     legal_actions = state.legal_actions()
     return legal_actions[random.randint(0, len(legal_actions)-1)]
 
+
+state = State()
+while True:
+    if state.is_done():
+        break;
+
+    action = random_action(state)
+    state = state.next(action)
+
+    print(state)
+    print("")
