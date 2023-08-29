@@ -61,3 +61,9 @@ class State:
             if i % 3 == 2:
                 str += '\n'
         return str
+
+
+def random_action(state):
+    legal_actions = state.legal_actions()
+    return legal_actions[random.randint(0, len(legal_actions)-1)]
+
