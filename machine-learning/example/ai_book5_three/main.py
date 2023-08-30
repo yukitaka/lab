@@ -10,7 +10,7 @@ class State:
         for i in pieces:
             if i == 1:
                 count += 1
-            return count
+        return count
 
     def is_lose(self):
         def is_comp(x, y, dx, dy):
@@ -34,7 +34,7 @@ class State:
         return self.is_lose() or self.is_draw()
 
     def next(self, action):
-        pieces = self.pieces[:]
+        pieces = list(self.pieces)
         pieces[action] = 1
         return State(self.enemy_pieces, pieces)
 
@@ -115,7 +115,8 @@ def mini_max_action(state):
 
         str[0] = '{}{:2d},'.format(str[0], action)
         str[1] = '{}{:2d},'.format(str[1], score)
-    print('action:', str[0], '\nscore: ', str[1], '\n')
+    print('action: {}'.format(str[0]))
+    print('score: {}'.format(str[1]))
 
     return best_action
 
