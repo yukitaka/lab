@@ -103,6 +103,42 @@ def mini_max_plus(state, limit):
     return best_score
 
 
+def alpha_beta(state, alpha, beta):
+    if state.is_lose():
+        return -1
+
+    if state.is_draw():
+        return 0
+
+    for action in state.legal_actions():
+        score = -alpha_beta(state.next(action), -beta, -alpha)
+        if score > alpha:
+            alpha = score
+
+        if alpha >= beta:
+            return alpha
+
+    return alpha
+
+
+def alpha_beta_action(state):
+    best_action = 0
+    alpha = -float('inf')
+    str = ['', '']
+    for action in state.legal_actions():
+        score = -alpha_beta(state.next(action), -float('inf'), -alpha)
+        if score > alpha:
+            best_action = action
+            alpha = score
+
+        str[0] = '{}{:2d},'.format(str[0], action)
+        str[1] = '{}{:2d},'.format(str[1], score)
+    print('action: {}'.format(str[0]))
+    print('score: {}'.format(str[1]))
+
+    return best_action
+
+
 def mini_max_action(state):
     best_action = 0
     best_score = -float('inf')
@@ -127,9 +163,9 @@ while True:
         break;
 
     if state.is_first_player():
-        action = mini_max_action(state)
+        action = alpha_beta_action(state)
     else:
-        action = random_action(state)
+        action = mini_max_action(state)
 
     state = state.next(action)
 
