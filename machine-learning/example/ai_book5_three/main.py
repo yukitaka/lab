@@ -84,6 +84,25 @@ def mini_max(state):
     return best_score
 
 
+def mini_max_plus(state, limit):
+    if state.is_lose():
+        return -1
+
+    if state.is_draw():
+        return 0
+
+    best_score = -float('inf')
+    for action in state.legal_actions():
+        score = -mini_max_plus(state.next(action), -best_score)
+        if score > best_score:
+            best_score = score
+
+        if best_score >= limit:
+            return best_score
+
+    return best_score
+
+
 def mini_max_action(state):
     best_action = 0
     best_score = -float('inf')
