@@ -186,3 +186,15 @@ def mcts_action(state):
 
     return legal_actions[argmax(n_list)]
 
+
+if __name__ == '__main__':
+    state = State()
+
+    while True:
+        if state.is_done():
+            break
+
+        state = state.next(random_action(state))
+
+        print(state)
+        print("")
