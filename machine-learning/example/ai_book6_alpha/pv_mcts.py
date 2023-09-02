@@ -22,3 +22,11 @@ def predict(model, state):
 
     return policies, value
 
+
+def nodes_to_scores(nodes):
+    scores = []
+    for c in nodes:
+        scores.append(c.n)
+
+    return scores
+
