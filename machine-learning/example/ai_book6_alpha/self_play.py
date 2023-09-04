@@ -50,3 +50,25 @@ def play(model):
         history[i][2] = value
         value = -value
     return history
+
+
+def self_play():
+    history = []
+    model = load_model('./model/best.keras')
+
+    for i in range(SP_GAME_COUNT):
+        h = play(model)
+        history.extend(h)
+
+        print('\rSelfPlay {}/{}'.format(i+1, SP_GAME_COUNT), end='')
+    print('')
+
+    write_data(history)
+
+    K.clear_session()
+    del model
+
+
+if __name__ == '__main__':
+    self_play()
+
