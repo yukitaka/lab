@@ -27,3 +27,48 @@ def write_data(history):
     with open(path, mode='wb') as f:
         pickle.dump(history, f)
 
+
+def play(model):
+    history = []
+    state = State()
+
+    while True:
+        if state.is_done():
+            break
+
+        scores = pv_mcts_scores(model, state, SP_TEMPERATURE)
+        policies = [0] * DN_OUTPUT_SIZE
+        for action, policy in zip(state.legal_actions(), scores):
+            policies[action] = policy
+        history.append([[state.pieces, state.enemy_pieces], policies, None])
+
+        action = np.random.choice(state.legal_actions(), p=scores)
+        state = state.next(action)
+
+    value = first_player_value(state)
+    for i in range(len(history)):
+        history[i][2] = value
+        value = -value
+    return history
+
+
+def self_play():
+    history = []
+    model = load_model('./model/best.keras')
+
+    for i in range(SP_GAME_COUNT):
+        h = play(model)
+        history.extend(h)
+
+        print('\rSelfPlay {}/{}'.format(i+1, SP_GAME_COUNT), end='')
+    print('')
+
+    write_data(history)
+
+    K.clear_session()
+    del model
+
+
+if __name__ == '__main__':
+    self_play()
+
