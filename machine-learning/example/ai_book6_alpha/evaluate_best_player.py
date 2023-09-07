@@ -30,7 +30,7 @@ def play(next_actions):
     return first_player_point(state)
 
 
-def evaluate_algorith_of(label, next_actions):
+def evaluate_algorithm_of(label, next_actions):
     total_point = 0
     for i in range(EP_GAME_COUNT):
         if i % 2 == 0:
@@ -42,4 +42,25 @@ def evaluate_algorith_of(label, next_actions):
     print('')
 
     average_point = total_point / EP_GAME_COUNT
-    print(label, average_opint)
+    print(label, average_point)
+
+
+def evaluate_best_player():
+    model = load_model('./model/best.keras')
+    next_pv_mcts_action = pv_mcts_action(model, 0.0)
+    next_actions = (next_pv_mcts_action, random_action)
+    evaluate_algorithm_of('VS_Random', next_actions)
+
+    next_actions = (next_pv_mcts_action, alpha_beta_action)
+    evaluate_algorithm_of('VS_AlphaBeta', next_actions)
+
+    next_actions = (next_pv_mcts_action, mcts_action)
+    evaluate_algorithm_of('VS_MCTS', next_actions)
+
+    K.clear_session()
+    del model
+
+
+if __name__ == '__main__':
+    evaluate_best_player()
+
