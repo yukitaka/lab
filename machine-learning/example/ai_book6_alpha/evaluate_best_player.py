@@ -29,3 +29,17 @@ def play(next_actions):
 
     return first_player_point(state)
 
+
+def evaluate_algorith_of(label, next_actions):
+    total_point = 0
+    for i in range(EP_GAME_COUNT):
+        if i % 2 == 0:
+            total_point += play(next_actions)
+        else:
+            total_point += 1 - play(list(reversed(next_actions)))
+
+        print('\rEvaluate {}/{}'.format(i + 1, EP_GAME_COUNT), end='')
+    print('')
+
+    average_point = total_point / EP_GAME_COUNT
+    print(label, average_opint)
