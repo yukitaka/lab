@@ -1,4 +1,5 @@
 import tkinter as tk
+from PIL import Image, ImageTk
 
 class EmptyUI(tk.Frame):
     def __init__(self, master=None):
@@ -30,6 +31,30 @@ class GraphicUI(tk.Frame):
         self.c.create_text(10, 200, text = 'Hello World', font='courier 20', anchor = tk.NW)
 
 
-f = GraphicUI()
+#f = GraphicUI()
+
+class ImageUI(tk.Frame):
+    def __init__(self, master=None):
+        tk.Frame.__init__(self, master)
+
+        self.master.title('Draw Image')
+
+        image = Image.open('sample.jpg')
+        self.images = []
+        self.images.append(ImageTk.PhotoImage(image))
+        self.images.append(ImageTk.PhotoImage(image.rotate(180)))
+
+        self.c = tk.Canvas(self, width = 240, height = 240, highlightthickness = 0)
+        self.c.pack()
+
+        self.on_draw()
+
+    def on_draw(self):
+        self.c.delete('all')
+        self.c.create_image(10, 10, image=self.images[0], anchor=tk.NW)
+        self.c.create_image(10, 100, image=self.images[1], anchor=tk.NW)
+
+f = ImageUI()
 f.pack()
 f.mainloop()
+
