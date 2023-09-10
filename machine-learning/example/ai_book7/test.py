@@ -54,7 +54,34 @@ class ImageUI(tk.Frame):
         self.c.create_image(10, 10, image=self.images[0], anchor=tk.NW)
         self.c.create_image(10, 100, image=self.images[1], anchor=tk.NW)
 
-f = ImageUI()
+#f = ImageUI()
+
+class EventUI(tk.Frame):
+    def __init__(self, master=None):
+        tk.Frame.__init__(self, master)
+        self.master.title('Handle Event')
+
+        self.x = 0
+        self.y = 0
+
+        self.c = tk.Canvas(self, width = 240, height = 240, highlightthickness = 0)
+        self.c.bind('<Button-1>', self.on_click)
+        self.c.pack()
+
+        self.on_draw()
+
+    def on_click(self, event):
+        self.x = event.x
+        self.y = event.y
+        self.on_draw()
+
+    def on_draw(self):
+        self.c.delete('all')
+
+        str = 'Click position {}, {}'.format(self.x, self.y)
+        self.c.create_text(10, 10, text = str, font='courier 9', anchor = tk.NW)
+
+f = EventUI()
 f.pack()
 f.mainloop()
 
