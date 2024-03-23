@@ -20,3 +20,22 @@ copy a = (a, a)
 
 apply :: (a -> b) -> a -> b
 apply a b = a b
+
+-- 3.11.3
+second xs = head (tail xs)
+-- second [a] -> a
+
+swap (x, y) = (y, x)
+-- swap (a, b) -> (b, a)
+
+pair x y = (x, y)
+-- pair x -> y -> (x, y)
+
+double x = x * 2
+-- double Num a => a -> a
+
+palindrome xs = reverse xs == xs
+-- palindrome Eq a => [a] -> Bool
+
+twice f x = f (f x)
+-- twice (a -> a) -> a -> a
